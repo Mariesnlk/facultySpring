@@ -1,9 +1,20 @@
 package com.example.faculty.database.repository;
 
 import com.example.faculty.database.entity.Topic;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface TopicRepository extends CrudRepository<Topic, Long> {
+
+    Optional<Topic> findTopicById(Long topicId);
+
+    Boolean existsTopicByName(String topicName);
+
+    @NotNull List<Topic> findAllOrderByCreatedDesc();
+
 }

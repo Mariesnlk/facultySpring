@@ -1,5 +1,15 @@
 package com.example.faculty.models.enums;
 
 public enum CourseStatus {
-    START, IN_PROGRESS, FINISH
+    NOT_STARTED("Not started"),
+    STARTED("Started"),
+    IN_PROGRESS("In progress"),
+    FINISH("Finish");
+
+    public final String courseStatusName;
+
+    public CourseStatus(String courseStatusName) {
+        this.courseStatusName = courseStatusName;
+    }
+
 }
