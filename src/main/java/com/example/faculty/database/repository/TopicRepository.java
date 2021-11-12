@@ -15,6 +15,6 @@ public interface TopicRepository extends CrudRepository<Topic, Long> {
 
     Boolean existsTopicByName(String topicName);
 
-    @NotNull List<Topic> findAllOrderByCreatedDesc();
+    List<Topic> findByOrderByCreatedDate();
 
 }

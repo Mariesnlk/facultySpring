@@ -44,4 +44,11 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private ConfirmationToken confirmationToken;
+
+    private boolean isEnabled;
+
+
 }

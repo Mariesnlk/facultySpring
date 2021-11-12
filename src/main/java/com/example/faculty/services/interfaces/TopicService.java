@@ -8,7 +8,7 @@ public interface TopicService {
 
     void createTopic(String name);
 
-    void updateTopic(Topic topic);
+    //void updateTopic(Topic topic);
 
     Topic findTopicById(Long topicId);
 

@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
 
     <title>Registration</title>
 </head>
@@ -14,13 +14,13 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span> <span
                     class="icon-bar"></span> <span class="icon-bar"></span> <span
                     class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" th:href="@{/}">Registration and
-                Login Module</a>
+            <a class="navbar-brand" href="#" th:href="@{/}">Faculty Site</a>
         </div>
     </div>
 </nav>
@@ -40,15 +40,18 @@
                     <div class="alert alert-info">You have been logged out.</div>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email</label>: <input type="text" id="email" name="email" class="form-control" autofocus="autofocus" placeholder="Username" />
+                    <label for="email">Email</label>: <input type="text" id="email" name="email" class="form-control"
+                                                             autofocus="autofocus" placeholder="Username"/>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password</label>: <input type="password" id="password" name="password" class="form-control" placeholder="Password" />
+                    <label for="password">Password</label>: <input type="password" id="password" name="password"
+                                                                   class="form-control" placeholder="Password"/>
                 </div>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3">
-                            <input type="submit" name="login-submit" id="login-submit" class="form-control btn btn-primary" value="Log In" />
+                            <input type="submit" name="login-submit" id="login-submit"
+                                   class="form-control btn btn-primary" value="Log In"/>
                         </div>
                     </div>
                 </div>

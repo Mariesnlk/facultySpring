@@ -28,12 +28,12 @@ public class TopicServiceImpl implements TopicService {
                 .build());
     }
 
-    @Override
-    public void updateTopic(Topic topicToUpdate) {
-        Topic topic = findTopicById(topicToUpdate.getId());
-        topic.setName(topicToUpdate.getName());
-        topicRepository.save(topic);
-    }
+//    @Override
+//    public void updateTopic(Topic topicToUpdate) {
+//        Topic topic = findTopicById(topicToUpdate.getId());
+//        topic.setName(topicToUpdate.getName());
+//        topicRepository.save(topic);
+//    }
 
     @Override
     public Topic findTopicById(Long topicId) {
@@ -48,6 +48,6 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public List<Topic> getAllTopics() {
-        return topicRepository.findAllOrderByCreatedDesc();
+        return topicRepository.findByOrderByCreatedDate();
     }
 }

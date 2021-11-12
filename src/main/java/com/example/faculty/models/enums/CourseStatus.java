@@ -8,7 +8,7 @@ public enum CourseStatus {
 
     public final String courseStatusName;
 
-    public CourseStatus(String courseStatusName) {
+    CourseStatus(String courseStatusName) {
         this.courseStatusName = courseStatusName;
     }
 

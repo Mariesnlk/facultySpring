@@ -1,15 +1,14 @@
 package com.example.faculty.database.entity;
 
-import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 //@Inheritance(strategy = InheritanceType.JOINED)
 @MappedSuperclass
-@Data
-@Entity
+//@Data
+//@Entity
 public class BaseEntity {
 
     @Id
@@ -17,6 +16,6 @@ public class BaseEntity {
     private Long id;
 
     @CreatedDate
-    @Column(name = "created")
-    private long created = new Date().getTime();
+    @Column(name = "created_date")
+    private LocalDate createdDate = LocalDate.now();//.getTime();
 }

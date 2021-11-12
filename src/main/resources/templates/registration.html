@@ -21,8 +21,7 @@
                     class="icon-bar"></span> <span class="icon-bar"></span> <span
                     class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#" th:href="@{/}">Registration and
-                Login Module</a>
+            <a class="navbar-brand" href="#" th:href="@{/}">Faculty Site</a>
         </div>
     </div>
 </nav>
@@ -72,12 +71,6 @@
                     <p class="error-message" th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation
                         error
                     </p>
-                </div>
-                <div class="form-group" th:classappend="${#fields.hasErrors('confirmEmail')}? 'has-error':''">
-                    <label for="confirmEmail" class="control-label">Confirm
-                        e-mail</label> <input id="confirmEmail" class="form-control" th:field="*{confirmEmail}"/>
-                    <p class="error-message" th:each="error : ${#fields.errors('confirmEmail')}" th:text="${error}">
-                        Validation error</p>
                 </div>
                 <div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error':''">
                     <label for="password" class="control-label">Password</label> <input id="password"
