@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-interface ConfirmationTokenRepository extends CrudRepository<ConfirmationToken, Long> {
+public interface ConfirmationTokenRepository extends CrudRepository<ConfirmationToken, Long> {
 
     ConfirmationToken findByConfirmationTokenName(String confirmationToken);
 }

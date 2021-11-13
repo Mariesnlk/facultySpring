@@ -1,6 +1,6 @@
 package com.example.faculty.config;
 
-import com.example.faculty.models.enums.Role;
+import com.example.faculty.models.enums.Roles;
 import com.example.faculty.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,11 +10,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -22,7 +19,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserService userService;
+    UserService userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -31,14 +28,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/", "/index",
                         "/registration**",
+                        "/login",
+                        "/confirm-account",
+                        "/about",
+                        "/contacts",
                         "/js/**",
                         "/css/**",
                         "/img/**",
                         "/webjars/**").permitAll()
+                .antMatchers("/admin/**").hasRole(Roles.ADMINISTRATOR.name())
+                .antMatchers("/student/**").hasRole(Roles.STUDENT.name())
+                .antMatchers("/teacher/**").hasAnyRole(Roles.TEACHER.name())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .successHandler(myAuthenticationSuccessHandler())
+                //.defaultSuccessUrl("/homepage.html", true)
                 .permitAll()
                 .and()
                 .logout()
@@ -67,15 +73,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
 
-    @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                .username("mariesnlk90@gmail.com")
-                .password("password")
-                .roles(Role.ADMINISTRATOR.name())
-                .build();
 
-        return new InMemoryUserDetailsManager(user);
+    @Bean
+    public AuthenticationSuccessHandler myAuthenticationSuccessHandler() {
+        return new UrlAuthenticationSuccessHandler();
     }
 }
+

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 <head>
     <meta charset="utf-8"/>
@@ -12,7 +12,8 @@
 </head>
 
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<!-- NAVBAR -->
+<div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
@@ -23,9 +24,43 @@
             </button>
             <a class="navbar-brand" href="#" th:href="@{/}">Faculty Site</a>
         </div>
+        <div class="navbar-collapse collapse" id="navbarNavDropdown">
+            <ul class="nav navbar-nav">
+                <li class="nav-item" active>
+                    <a class="nav-link link-light" th:href="@{/courses}">Courses</a>
+                </li>
+                <li class="nav-item" active>
+                    <a class="nav-link link-light" th:href="@{/about}">About us</a>
+                </li>
+                <li class="nav-item" active>
+                    <a class="nav-link link-light" th:href="@{/contacts}">Contact info</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{/login}">
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Sign in
+                    </a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{/logout}">
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false"> Choose language
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="?lang=ua">ua</a>
+                        <a class="dropdown-item" href="?lang=en">en</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
-</nav>
-
+</div>
+<!-- NAVBAR -->
 <br>
 <br>
 
@@ -52,7 +87,7 @@
                         Validation error</p>
                 </div>
                 <div class="form-group" th:classappend="${#fields.hasErrors('secondName')}? 'has-error':''">
-                    <label for="firstName" class="control-label">First name</label> <input id="secondName"
+                    <label for="firstName" class="control-label">Second name</label> <input id="secondName"
                                                                                            class="form-control"
                                                                                            th:field="*{secondName}"/>
                     <p class="error-message" th:each="error: ${#fields.errors('secondName')}" th:text="${error}">

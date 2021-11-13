@@ -1,13 +1,12 @@
 package com.example.faculty.services.implementation;
 
+import com.example.faculty.database.entity.Role;
 import com.example.faculty.database.entity.User;
 import com.example.faculty.database.repository.UserRepository;
-import com.example.faculty.models.enums.Role;
+import com.example.faculty.models.enums.Roles;
 import com.example.faculty.models.requests.user.UserDto;
 import com.example.faculty.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,7 +18,6 @@ import java.util.Set;
 
 @Service
 @Transactional
-//@Component
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -30,22 +28,49 @@ public class UserServiceImpl implements UserService {
 
 
     public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.getUserByEmail(email);
     }
 
-    public User save(UserDto registration) {
+    public User saveStudent(UserDto registration) {
         return userRepository.save(User.builder()
                 .firstName(registration.getFirstName())
                 .secondName(registration.getSecondName())
                 .lastName(registration.getLastName())
                 .email(registration.getEmail())
                 .password(passwordEncoder.encode(registration.getPassword()))
-                .role(Role.STUDENT)
+                .roles(setStudentRole())
                 .build());
     }
 
     @Override
+    public User saveStudent(User user) {
+
+        return userRepository.save(User.builder()
+                .firstName(user.getFirstName())
+                .secondName(user.getSecondName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .password(passwordEncoder.encode(user.getPassword()))
+                .roles(setStudentRole())
+                .build());
+    }
+
+    private Set<Role> setStudentRole() {
+        Set<Role> roles = new HashSet<>();
+        roles.add(new Role(1, Roles.STUDENT.name()));
+        return roles;
+    }
+
+    @Override
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return (UserDetails) userRepository.findByEmail(username);
+        return (UserDetails) userRepository.getUserByEmail(username);
+
+        /*User user = userRepository.getUserByEmail(username);
+        return (UserDetails) (user.isRegistered() ? user : null);*/
     }
 }

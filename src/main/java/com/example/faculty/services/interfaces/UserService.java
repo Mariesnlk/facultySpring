@@ -8,5 +8,9 @@ public interface UserService extends UserDetailsService {
 
     User findByEmail(String email);
 
-    User save(UserDto registration);
+    User saveStudent(UserDto registration);
+
+    User saveStudent(User user);
+
+    User updateUser(User user);
 }

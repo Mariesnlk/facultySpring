@@ -8,9 +8,8 @@
 
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
 
-    <title>Registration</title>
+    <title>Registration Success</title>
 </head>
-
 <body>
 <!-- NAVBAR -->
 <div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
@@ -38,11 +37,6 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li sec:authorize="isAuthenticated()">
-                    <a th:href="@{/login}">
-                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Sign in
-                    </a>
-                </li>
-                <li sec:authorize="isAuthenticated()">
                     <a th:href="@{/logout}">
                         <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
                     </a>
@@ -63,16 +57,8 @@
 <!-- NAVBAR -->
 <br>
 <br>
-<div class="container">
-    <br>
-    <p>
-        Welcome <span sec:authentication="principal.username">User</span>
-    </p>
+<div style="text-align: center;">
+    <span th:text="${message}"></span>
 </div>
-
-<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
-<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
-
 </body>
-
 </html>

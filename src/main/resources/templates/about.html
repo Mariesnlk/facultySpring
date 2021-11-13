@@ -8,9 +8,8 @@
 
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
 
-    <title>Registration</title>
+    <title>About us</title>
 </head>
-
 <body>
 <!-- NAVBAR -->
 <div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
@@ -63,16 +62,23 @@
 <!-- NAVBAR -->
 <br>
 <br>
+
 <div class="container">
-    <br>
-    <p>
-        Welcome <span sec:authentication="principal.username">User</span>
-    </p>
+
+    <div id="background-info">
+        <div class="jumbotron p-3 p-md-5 text-black ">
+            <div class="col-md-6 px-0">
+                <h1 class="display-6 font-italic">Welcome to CountMoney!</h1>
+                <p class="lead my-3">This app will help you control your incomes and
+                    outgoings. You can use it with
+                    your friends and family.</p>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
 <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
-
 </body>
-
 </html>
