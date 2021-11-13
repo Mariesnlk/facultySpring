@@ -5,62 +5,78 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Registration</title>
 
+    <link href="/static/css/header.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
 
-    <title>Registration</title>
 </head>
-
 <body>
-<!-- NAVBAR -->
-<div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span> <span
-                    class="icon-bar"></span> <span class="icon-bar"></span> <span
-                    class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#" th:href="@{/}">Faculty Site</a>
-        </div>
-        <div class="navbar-collapse collapse" id="navbarNavDropdown">
-            <ul class="nav navbar-nav">
-                <li class="nav-item" active>
-                    <a class="nav-link link-light" th:href="@{/courses}">Courses</a>
-                </li>
-                <li class="nav-item" active>
-                    <a class="nav-link link-light" th:href="@{/about}">About us</a>
-                </li>
-                <li class="nav-item" active>
-                    <a class="nav-link link-light" th:href="@{/contacts}">Contact info</a>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li sec:authorize="isAuthenticated()">
-                    <a th:href="@{/login}">
-                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Sign in
-                    </a>
-                </li>
-                <li sec:authorize="isAuthenticated()">
-                    <a th:href="@{/logout}">
-                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
-                    </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false"> Choose language
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="?lang=ua">ua</a>
-                        <a class="dropdown-item" href="?lang=en">en</a>
+<!-- Header Section Begin -->
+<header class="header-section">
+    <div class="top-nav">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <ul class="tn-left">
+                        <li>
+                            <img src="/static/img/icons/tel.svg" alt="tel"> (12) 345 67890
+                        </li>
+                        <li>
+                            <img src="/static/img/icons/email.svg" alt="email"> test.email.mariia@gmail.com
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <div class="tn-right">
+                        <div class="language-option">
+                            <span>Choose language <i class="fa fa-angle-down"></i></span>
+                            <div class="flag-dropdown">
+                                <ul>
+                                    <li><a  href="?lang=ua">ua</a></li>
+                                    <li><a  href="?lang=en">en</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<!-- NAVBAR -->
+    <div class="menu-item">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="logo">
+                        <a href="#" th:href="@{/}"><h2>Faculty site</h2></a>
+                    </div>
+                </div>
+                <div class="col-lg-10">
+                    <div class="nav-menu">
+                        <nav class="mainmenu">
+                            <ul>
+                                <li><a th:href="@{/courses}">Courses</a></li>
+                                <li><a th:href="@{/about}">About us</a></li>
+                                <li><a th:href="@{/contacts}">Contact info</a></li>
+                                <li sec:authorize="isAuthenticated()">
+                                    <a th:href="@{/login}">
+                                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Sign in
+                                    </a>
+                                </li>
+                                <li sec:authorize="isAuthenticated()">
+                                    <a th:href="@{/logout}">
+                                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Header End -->
 <br>
 <br>
 
@@ -73,55 +89,39 @@
             </div>
 
             <h1>Registration</h1>
-            <form th:action="@{/registration}" th:object="${user}" method="post">
+            <form th:action="@{/registration}" th:object="${user}" method="post" class="form">
 
-                <p class="error-message" th:if="${#fields.hasGlobalErrors()}"
-                   th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation error
-                </p>
+                <div class="form-group">
+                    <label for="firstName">First name *</label>
+                    <input class="form-control" type="text" th:field="*{firstName}" id="firstName" placeholder="Enter first name">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="secondName">Second name *</label>
+                    <input class="form-control" type="text" th:field="*{secondName}" id="secondName" placeholder="Enter second name">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('secondName')}" th:errors="*{secondName}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last name *</label>
+                    <input class="form-control" type="text" th:field="*{lastName}" id="lastName" placeholder="Enter last name">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input class="form-control" type="text" th:field="*{email}" id="email" placeholder="Enter email">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input class="form-control" type="text" th:field="*{password}" id="password" placeholder="Enter password">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm password *</label>
+                    <input class="form-control" type="text" th:field="*{confirmPassword}" id="confirmPassword" placeholder="Confirm password">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
+                </div>
 
-                <div class="form-group" th:classappend="${#fields.hasErrors('firstName')}? 'has-error':''">
-                    <label for="firstName" class="control-label">First name</label> <input id="firstName"
-                                                                                           class="form-control"
-                                                                                           th:field="*{firstName}"/>
-                    <p class="error-message" th:each="error: ${#fields.errors('firstName')}" th:text="${error}">
-                        Validation error</p>
-                </div>
-                <div class="form-group" th:classappend="${#fields.hasErrors('secondName')}? 'has-error':''">
-                    <label for="firstName" class="control-label">Second name</label> <input id="secondName"
-                                                                                           class="form-control"
-                                                                                           th:field="*{secondName}"/>
-                    <p class="error-message" th:each="error: ${#fields.errors('secondName')}" th:text="${error}">
-                        Validation error</p>
-                </div>
-                <div class="form-group" th:classappend="${#fields.hasErrors('lastName')}? 'has-error':''">
-                    <label for="lastName" class="control-label">Last name</label> <input id="lastName"
-                                                                                         class="form-control"
-                                                                                         th:field="*{lastName}"/>
-                    <p class="error-message" th:each="error : ${#fields.errors('lastName')}" th:text="${error}">
-                        Validation error</p>
-                </div>
-                <div class="form-group" th:classappend="${#fields.hasErrors('email')}? 'has-error':''">
-                    <label for="email" class="control-label">E-mail</label> <input id="email" class="form-control"
-                                                                                   th:field="*{email}"/>
-                    <p class="error-message" th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation
-                        error
-                    </p>
-                </div>
-                <div class="form-group" th:classappend="${#fields.hasErrors('password')}? 'has-error':''">
-                    <label for="password" class="control-label">Password</label> <input id="password"
-                                                                                        class="form-control"
-                                                                                        type="password"
-                                                                                        th:field="*{password}"/>
-                    <p class="error-message" th:each="error : ${#fields.errors('password')}" th:text="${error}">
-                        Validation error</p>
-                </div>
-                <div class="form-group" th:classappend="${#fields.hasErrors('confirmPassword')}? 'has-error':''">
-                    <label for="confirmPassword" class="control-label">Confirm
-                        password</label> <input id="confirmPassword" class="form-control" type="password"
-                                                th:field="*{confirmPassword}"/>
-                    <p class="error-message" th:each="error : ${#fields.errors('confirmPassword')}" th:text="${error}">
-                        Validation error</p>
-                </div>
                 <div class="form-group" th:classappend="${#fields.hasErrors('terms')}? 'has-error':''">
                     <input id="terms" type="checkbox" th:field="*{terms}"/> <label class="control-label" for="terms"> I
                     agree with the <a

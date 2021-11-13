@@ -32,7 +32,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/confirm-account",
                         "/about",
                         "/contacts",
-                        "/js/**",
+                        "/static/**",
+//                        "/js/**",
                         "/css/**",
                         "/img/**",
                         "/webjars/**").permitAll()

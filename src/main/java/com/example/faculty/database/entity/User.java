@@ -36,6 +36,7 @@ public class User extends BaseEntity implements UserDetails {
     @NotEmpty(message = "Please provide an e-mail")
     private String email;
 
+    @NotEmpty(message = "Please provide valid password")
     @Column(name = "password", nullable = false)
     private String password;
 

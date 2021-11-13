@@ -1,7 +1,6 @@
 package com.example.faculty.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -12,28 +11,28 @@ public class MainController {
         return "index";
     }
 
-//    @GetMapping("/login")
-//    public String login(Model model) {
-//        return "login";
-//    }
-
-    @GetMapping("/user")
-    public String userIndex() {
-        return "user/index";
-    }
-
     @GetMapping("/about")
-    public String about(Model model) {
+    public String about() {
         return "about";
     }
 
     @GetMapping("/contacts")
-    public String contacts(Model model) {
+    public String contacts() {
         return "contacts";
     }
 
     @GetMapping("/student")
-    public String student(Model model) {
-        return "student";
+    public String student() {
+        return "user/student";
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "user/admin";
+    }
+
+    @GetMapping("/teacher")
+    public String teacher() {
+        return "user/teacher";
     }
 }

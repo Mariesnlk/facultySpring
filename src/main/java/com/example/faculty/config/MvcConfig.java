@@ -16,17 +16,16 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/about").setViewName("about");
         registry.addViewController("/contacts").setViewName("contacts");
 
-
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(
-                "/static/images/**",
+                "/static/img/**",
                 "/static/css/**",
                 "/static/js/**")
                 .addResourceLocations(
-                        "classpath:/static/images/",
+                        "classpath:/static/img/",
                         "classpath:/static/css/",
                         "classpath:/static/js/");
     }
