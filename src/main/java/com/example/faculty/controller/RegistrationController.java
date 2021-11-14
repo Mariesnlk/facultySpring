@@ -11,6 +11,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,19 +40,19 @@ public class RegistrationController {
     }
 
 
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    @GetMapping(value = "/registration")
     public ModelAndView displayRegistration(ModelAndView modelAndView, UserDto user) {
         modelAndView.addObject("user", user);
         modelAndView.setViewName("registration");
         return modelAndView;
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ModelAndView registerUser(ModelAndView modelAndView, @Valid UserDto userDto,
+    @PostMapping(value = "/registration")
+    public ModelAndView registerUser(ModelAndView modelAndView, @Valid @Validated UserDto userDto,
                                      BindingResult result) {
-        if (result.hasErrors()) {
-            modelAndView.setViewName("registration");
-        } else {
+//        if (result.hasErrors()) {
+//            modelAndView.setViewName("registration");
+//        } else {
             User existingUser = userService.findByEmail(userDto.getEmail());
             if (existingUser != null) {
                 modelAndView.addObject("message", "This email already exists!");
@@ -74,8 +75,8 @@ public class RegistrationController {
 
                 modelAndView.addObject("email", userDto.getEmail());
 
-                modelAndView.setViewName("successfulRegisteration");
-            }
+                modelAndView.setViewName("successfulRegistration");
+//            }
         }
 
         return modelAndView;

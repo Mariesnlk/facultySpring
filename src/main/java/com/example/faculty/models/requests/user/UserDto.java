@@ -1,6 +1,5 @@
 package com.example.faculty.models.requests.user;
 
-import com.example.faculty.util.validator.PasswordMatches;
 import com.example.faculty.util.validator.ValidEmail;
 import lombok.Data;
 
@@ -25,14 +24,14 @@ public class UserDto {
 
     @NotNull
     @NotEmpty
-    @PasswordMatches
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}", message = "Not valid user password")
     private String password;
 
     @NotNull
     @NotEmpty
     private String confirmPassword;
 
-   @ValidEmail
+    @ValidEmail
     @NotNull
     @NotEmpty
     @Email

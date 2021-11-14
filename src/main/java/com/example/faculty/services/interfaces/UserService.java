@@ -13,4 +13,6 @@ public interface UserService extends UserDetailsService {
     User saveStudent(User user);
 
     User updateUser(User user);
+
+    User getUser(Long userId);
 }

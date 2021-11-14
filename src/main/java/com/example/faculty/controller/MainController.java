@@ -21,18 +21,4 @@ public class MainController {
         return "contacts";
     }
 
-    @GetMapping("/student")
-    public String student() {
-        return "user/student";
-    }
-
-    @GetMapping("/admin")
-    public String admin() {
-        return "user/admin";
-    }
-
-    @GetMapping("/teacher")
-    public String teacher() {
-        return "user/teacher";
-    }
 }

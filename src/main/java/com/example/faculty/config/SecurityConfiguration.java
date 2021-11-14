@@ -33,9 +33,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/about",
                         "/contacts",
                         "/static/**",
-//                        "/js/**",
                         "/css/**",
                         "/img/**",
+                        "/admin",
                         "/webjars/**").permitAll()
                 .antMatchers("/admin/**").hasRole(Roles.ADMINISTRATOR.name())
                 .antMatchers("/student/**").hasRole(Roles.STUDENT.name())
@@ -45,7 +45,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .successHandler(myAuthenticationSuccessHandler())
-                //.defaultSuccessUrl("/homepage.html", true)
                 .permitAll()
                 .and()
                 .logout()

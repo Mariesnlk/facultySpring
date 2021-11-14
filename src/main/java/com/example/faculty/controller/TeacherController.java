@@ -10,8 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class AdministratorController {
-
+public class TeacherController {
 
     @Autowired
     CourseService courseService;
@@ -19,15 +18,15 @@ public class AdministratorController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/admin")
+    @GetMapping("/teacher")
     public String getStudent(Model model) {
-        User admin = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("admin", admin);
-        return "/user/admin";
+        User teacher = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("teacher", teacher);
+        return "/user/teacher";
     }
 
-    @GetMapping("/admin/edit")
+    @GetMapping("/teacher/edit")
     public String teacher() {
-        return "user/admin/edit";
+        return "user/teacher/edit";
     }
 }
