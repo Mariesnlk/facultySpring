@@ -9,4 +9,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     User getUserByEmail(String email);
 
+    User findUserByResetPasswordToken(String token);
+
 }

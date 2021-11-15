@@ -35,11 +35,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/static/**",
                         "/css/**",
                         "/img/**",
-                        "/admin",
+                        "/admin/**",
+                        "/student/**",
+                        "/teacher/**",
+                        "/reset_password",
+                        "/forgot_password",
                         "/webjars/**").permitAll()
-                .antMatchers("/admin/**").hasRole(Roles.ADMINISTRATOR.name())
-                .antMatchers("/student/**").hasRole(Roles.STUDENT.name())
-                .antMatchers("/teacher/**").hasAnyRole(Roles.TEACHER.name())
+//                .antMatchers("/admin/**").hasRole(Roles.ADMINISTRATOR.name())
+//                .antMatchers("/student/**").hasRole(Roles.STUDENT.name())
+//                .antMatchers("/teacher/**").hasAnyRole(Roles.TEACHER.name())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

@@ -1,6 +1,6 @@
 package com.example.faculty.util.validator;
 
-import com.example.faculty.models.requests.user.UserDto;
+import com.example.faculty.models.requests.UserDto;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

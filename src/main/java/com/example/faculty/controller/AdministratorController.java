@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.validation.Valid;
 
 @Controller
 public class AdministratorController {
@@ -26,8 +30,23 @@ public class AdministratorController {
         return "/user/admin";
     }
 
+    // TODO: 15.11.2021 test 
     @GetMapping("/admin/edit")
-    public String teacher() {
-        return "user/admin/edit";
+    public String showUpdateAdminForm(Model model){
+        User admin = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user", admin);
+        return "/user/admin/edit";
+    }
+
+    // TODO: 15.11.2021 not working update
+
+    @PostMapping("/admin/update")
+    public String updateAdmin(@Valid User user, BindingResult result, Model model) {
+        User admin = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (result.hasErrors()) {
+            return "redirect:/admin/edit";
+        }
+        userService.saveStudent(user);
+        return "/user/teacher";
     }
 }

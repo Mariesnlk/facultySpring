@@ -1,23 +1,32 @@
 package com.example.faculty.database.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user")
-public class User extends BaseEntity implements UserDetails {
+public class User implements UserDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @CreatedDate
+    @Column(name = "created_date")
+    private LocalDate createdDate = LocalDate.now();//.getTime();
 
     @Column(name = "first_name")
     @NotEmpty(message = "Please provide your first name")
@@ -53,6 +62,9 @@ public class User extends BaseEntity implements UserDetails {
 
     @Column(name = "is_enabled")
     private boolean registered;
+
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
 
 
     @Override

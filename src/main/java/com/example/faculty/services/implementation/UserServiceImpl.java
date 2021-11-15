@@ -4,8 +4,9 @@ import com.example.faculty.database.entity.Role;
 import com.example.faculty.database.entity.User;
 import com.example.faculty.database.repository.UserRepository;
 import com.example.faculty.models.enums.Roles;
-import com.example.faculty.models.requests.user.UserDto;
+import com.example.faculty.models.requests.UserDto;
 import com.example.faculty.services.interfaces.UserService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -78,4 +79,38 @@ public class UserServiceImpl implements UserService {
         /*User user = userRepository.getUserByEmail(username);
         return (UserDetails) (user.isRegistered() ? user : null);*/
     }
+
+    @Override
+    public void updateResetPasswordToken(String token, String email) throws NotFoundException {
+        User user = userRepository.getUserByEmail(email);
+        if (user != null) {
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+        } else {
+            throw new NotFoundException("Could not find any customer with the email " + email);
+        }
+    }
+
+    @Override
+    public User getByResetPasswordToken(String token) {
+        return userRepository.findUserByResetPasswordToken(token);
+    }
+
+    @Override
+    public void updatePassword(User user, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encodedPassword);
+
+        user.setResetPasswordToken(null);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + userId));
+        userRepository.delete(user);
+    }
+
 }

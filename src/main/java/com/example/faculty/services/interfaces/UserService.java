@@ -1,8 +1,10 @@
 package com.example.faculty.services.interfaces;
 
 import com.example.faculty.database.entity.User;
-import com.example.faculty.models.requests.user.UserDto;
+import com.example.faculty.models.requests.UserDto;
+import javassist.NotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public interface UserService extends UserDetailsService {
 
@@ -15,4 +17,13 @@ public interface UserService extends UserDetailsService {
     User updateUser(User user);
 
     User getUser(Long userId);
+
+    void updateResetPasswordToken(String token, String email) throws NotFoundException;
+
+    User getByResetPasswordToken(String token);
+
+    void updatePassword(User user, String newPassword);
+
+    void deleteUser(Long userId);
+
 }

@@ -1,4 +1,4 @@
-package com.example.faculty.models.requests.user;
+package com.example.faculty.models.requests;
 
 import com.example.faculty.util.validator.ValidEmail;
 import lombok.Data;

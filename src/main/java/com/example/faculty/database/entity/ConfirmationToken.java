@@ -1,7 +1,6 @@
 package com.example.faculty.database.entity;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,7 +8,6 @@ import java.util.UUID;
 
 @Entity
 @Data
-//@NoArgsConstructor
 @Table(name = "confirmation_token")
 public class ConfirmationToken {
 
