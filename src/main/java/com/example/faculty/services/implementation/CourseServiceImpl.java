@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CourseServiceImpl implements CourseService {
 
@@ -70,5 +72,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Page<Course> getAllCourses(Pageable pageable) {
         return courseRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Course> getCourses(Long teacherId) {
+        return courseRepository.findCoursesByIdTeacherOrderByCreatedDate(teacherId);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.faculty.database.entity;
 
+import com.example.faculty.models.enums.Roles;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
@@ -66,6 +67,8 @@ public class User implements UserDetails {
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
 
+    @Column(name = "one_user_role")
+    private String userRoleName;
 
     @Override
     public String getUsername() {

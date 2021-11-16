@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Teacher page</title>
+
+    <link href="/static/css/header.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+
+</head>
+<body>
+
+<div th:replace="fragments/nav-admin.html :: nav-admin"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+
+            <div th:if="${param.success}">
+                <div class="alert alert-info">You've successfully added new teacher!</div>
+            </div>
+
+            <h1>Registration</h1>
+            <form th:action="@{/teacher/add}" th:object="${teacher}" method="post" class="form">
+
+                <div class="form-group">
+                    <label for="firstName">First name *</label>
+                    <input class="form-control" type="text" th:field="*{firstName}" id="firstName" placeholder="Enter first name">
+                    <!--                    <div class="alert alert-warning" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>-->
+                    <div th:if="${#fields.hasErrors('firstName')}">
+                        <div class="alert alert-danger">Invalid email or password.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="secondName">Second name *</label>
+                    <input class="form-control" type="text" th:field="*{secondName}" id="secondName" placeholder="Enter second name">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('secondName')}" th:errors="*{secondName}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last name *</label>
+                    <input class="form-control" type="text" th:field="*{lastName}" id="lastName" placeholder="Enter last name">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input class="form-control" type="text" th:field="*{email}" id="email" placeholder="Enter email">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

@@ -1,10 +1,14 @@
 package com.example.faculty.services.interfaces;
 
 import com.example.faculty.database.entity.User;
+import com.example.faculty.models.requests.UserCreateDto;
 import com.example.faculty.models.requests.UserDto;
+import com.example.faculty.util.paging.Paged;
 import javassist.NotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.List;
 
 public interface UserService extends UserDetailsService {
 
@@ -26,4 +30,11 @@ public interface UserService extends UserDetailsService {
 
     void deleteUser(Long userId);
 
+    Paged getStudentsPage(int pageNumber, int size);
+
+    Paged getTeachersPage(int pageNumber, int size);
+
+    List<User> allTeachers();
+
+    User createTeacher(UserCreateDto userCreateDto, String password);
 }

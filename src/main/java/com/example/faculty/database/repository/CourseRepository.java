@@ -18,6 +18,8 @@ public interface CourseRepository extends CrudRepository<Course, Long> {
 
     Page<Course> findAll(Pageable pageable);
 
+    List<Course> findCoursesByIdTeacherOrderByCreatedDate(Long teacherId);
+
     List<Course> findCoursesByIdTopic(Long topicId);
 
     //List<Course> findCoursesByNameOrderByCreated(String courseName);

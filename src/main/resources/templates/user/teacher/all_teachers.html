@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>All topics</title>
+
+    <link href="/static/css/userPage.css" rel="stylesheet">
+    <link href="/static/css/header.css" rel="stylesheet">
+    <link href="/static/css/table.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+
+</head>
+<body>
+
+<div th:replace="fragments/nav-admin.html :: nav-admin"></div>
+
+<div th:switch="${teachers}" id="table">
+    <div th:case="*">
+        <h2>All Teachers</h2>
+        <table id="incomes_table" class="table table-bordered">
+            <thead>
+            <tr class="table-success">
+                <th class="table-th">Name</th>
+                <th class="table-th">Email</th>
+                <th class="table-th">Courses</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="teacher, iter:${teachers.page}">
+                <td th:text="${teacher.firstName} + ' ' + ${teacher.secondName} + ' ' + ${teacher.lastName}"
+                    class="table-success"></td>
+                <td th:text="${teacher.email}"
+                    class="table-success"></td>
+                <td class="table-success"> to be</td>
+                <td class="edit-delete"><a th:href="@{/teacher/delete/{id}(id=${teacher.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!------ Paging ------->
+        <div class="con-pagination">
+            <nav aria-label="Page navigation" class="paging">
+                <ul class="pagination" th:if="${teachers.page.totalPages > 1}">
+                    <li class="page-item" th:classappend="${!teachers.paging.isPrevEnabled()? 'disabled' : ''}">
+                        <a class="page-link"
+                           th:href="@{'/teachers?pageNumber=' + ${teachers.paging.pageNumber - 1} + '&name='+${name} }"
+                           tabindex="-1">Previous</a>
+                    </li>
+                    <th:block th:each="item : ${teachers.paging.getItems()}">
+                        <li class="page-item"
+                            th:classappend="${item.index == teachers.paging.pageNumber? 'active' : ''}"
+                            th:if="${item.pageItemType.name() == 'PAGE'}">
+                            <a class="page-link"
+                               th:href="@{'/teachers?pageNumber=' + ${item.index} + '&name='+${name}}"
+                               th:text="${item.index}"></a>
+                        </li>
+                        <li class="page-item disabled" th:if="${item.pageItemType.name() == 'DOTS'}">
+                            <a class="page-link" href="#">...</a>
+                        </li>
+                    </th:block>
+                    <li class="page-item" th:classappend="${!teachers.paging.isNextEnabled()? 'disabled' : ''}">
+                        <a class="page-link"
+                           th:href="@{'/teachers?pageNumber=' + ${teachers.paging.pageNumber + 1} + '&name='+${name}}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!------- Paging ------>
+    </div>
+
+    <div class="container">
+        <p><a id="add-new" href="/teacher/create">Add new teacher</a></p>
+    </div>
+
+</div>
+
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

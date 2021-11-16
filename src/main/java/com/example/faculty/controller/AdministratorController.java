@@ -3,10 +3,18 @@ package com.example.faculty.controller;
 import com.example.faculty.database.entity.Topic;
 import com.example.faculty.database.entity.User;
 import com.example.faculty.models.requests.TopicDto;
+import com.example.faculty.models.requests.UserCreateDto;
+import com.example.faculty.services.implementation.EmailSenderService;
 import com.example.faculty.services.interfaces.CourseService;
 import com.example.faculty.services.interfaces.TopicService;
 import com.example.faculty.services.interfaces.UserService;
+import com.example.faculty.util.Utility;
+import javassist.NotFoundException;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +25,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 
 @Controller
 public class AdministratorController {
@@ -31,6 +42,9 @@ public class AdministratorController {
 
     @Autowired
     TopicService topicService;
+
+    @Autowired
+    private EmailSenderService emailSenderService;
 
     @GetMapping("/admin")
     public String getStudent(Model model) {
@@ -66,7 +80,7 @@ public class AdministratorController {
     }
 
     @GetMapping("/topic/add")
-    public ModelAndView addTopic(ModelAndView modelAndView, Model model, TopicDto topic) {
+    public ModelAndView addTopic(ModelAndView modelAndView, Model model, @Valid TopicDto topic) {
         modelAndView.addObject("topic", topic);
         modelAndView.addObject("condition", "add");
         modelAndView.setViewName("/topic/topic");
@@ -81,7 +95,7 @@ public class AdministratorController {
 
     // TODO: 16.11.2021 not working 
     @GetMapping("/topic/edit/{id}")
-    public ModelAndView showUpdateTopicForm(@PathVariable("id") long id,ModelAndView modelAndView,  Model model) {
+    public ModelAndView showUpdateTopicForm(@PathVariable("id") long id, ModelAndView modelAndView, Model model) {
         Topic topic = topicService.findTopicById(id);
         model.addAttribute("topic", topic);
         model.addAttribute("condition", "edit");
@@ -110,13 +124,65 @@ public class AdministratorController {
         return "/topic/all_topics";
     }
 
-//    @GetMapping("/admin/students")
-//    public String studentsGet(Model model,
-//                              @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-//                              @RequestParam(value = "size", required = false, defaultValue = "2") int size,
-//                              @RequestParam(value = "name", defaultValue = "") String name) {
-//        model.addAttribute("name", name);
-//        model.addAttribute("students", userService.getStudentsPage(name, pageNumber, size));
-//        return "/users/admin/studentList";
-//    }
+
+    // TODO: 16.11.2021  add params
+    @GetMapping("/students")
+    public String studentsGet(Model model,
+                              @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
+                              @RequestParam(value = "size", required = false, defaultValue = "4") int size) {
+        model.addAttribute("students", userService.getStudentsPage(pageNumber, size));
+        return "/user/student/all_students";
+    }
+
+    // TODO: 16.11.2021  add params
+    // TODO: 16.11.2021 add list as drop down with teacher`s courses
+    @GetMapping("/teachers")
+    public String teachersGet(Model model,
+                              @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
+                              @RequestParam(value = "size", required = false, defaultValue = "4") int size) {
+
+        model.addAttribute("teachers", userService.getTeachersPage(pageNumber, size));
+        return "/user/teacher/all_teachers";
+    }
+
+    @GetMapping("/teacher/create")
+    public ModelAndView addTeacherForm(ModelAndView modelAndView, Model model, UserCreateDto userCreate) {
+        modelAndView.addObject("teacher", userCreate);
+        modelAndView.setViewName("/user/teacher/create");
+        return modelAndView;
+    }
+
+    @PostMapping("/teacher/add")
+    public String addTeacher(@Valid UserCreateDto userCreate, BindingResult result, Model model) {
+
+        String password = RandomString.make(30);
+        userService.createTeacher(userCreate, password);
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(userCreate.getEmail());
+        mailMessage.setSubject("Register as a teacher");
+        mailMessage.setFrom("test.email.mariia@gmail.com");
+
+        mailMessage.setText("Hello, \n"
+                + "You have been register as a teacher. \n"
+                + "To sign in use this data:\n"
+                + "email: " + userCreate.getEmail()
+                + "\npassword: " + password
+                + "\nChange your password you can in your profile page: \n"
+                + "You can sign in via this link "
+                + "http://localhost:8080/login"
+                + "\n\nIgnore this email if you do remember your password, "
+                + "or you have not made the request.</p>");
+
+        emailSenderService.sendEmail(mailMessage);
+
+        return "redirect:/teachers";
+    }
+
+    @GetMapping("/teacher/delete/{id}")
+    public String deleteTeacher(@PathVariable("id") long id, Model model) {
+        userService.deleteUser(id);
+        return "redirect:/teachers";
+    }
+
 }
