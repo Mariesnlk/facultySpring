@@ -2,6 +2,8 @@ package com.example.faculty.database.repository;
 
 import com.example.faculty.database.entity.Topic;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,5 +18,7 @@ public interface TopicRepository extends CrudRepository<Topic, Long> {
     Boolean existsTopicByName(String topicName);
 
     List<Topic> findByOrderByCreatedDate();
+
+    Page<Topic> findAllByOrderByCreatedDate(Pageable pageable);
 
 }

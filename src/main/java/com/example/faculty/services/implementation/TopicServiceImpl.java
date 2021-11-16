@@ -4,7 +4,12 @@ import com.example.faculty.database.entity.Topic;
 import com.example.faculty.database.repository.TopicRepository;
 import com.example.faculty.exception.BadRequestException;
 import com.example.faculty.services.interfaces.TopicService;
+import com.example.faculty.util.paging.Paged;
+import com.example.faculty.util.paging.Paging;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +17,6 @@ import java.util.List;
 @Service
 public class TopicServiceImpl implements TopicService {
 
-    //only administrator can add topics
 
     @Autowired
     TopicRepository topicRepository;
@@ -28,12 +32,14 @@ public class TopicServiceImpl implements TopicService {
                 .build());
     }
 
-//    @Override
-//    public void updateTopic(Topic topicToUpdate) {
-//        Topic topic = findTopicById(topicToUpdate.getId());
-//        topic.setName(topicToUpdate.getName());
-//        topicRepository.save(topic);
-//    }
+    @Override
+    public Topic updateTopic(Long topicId, String topicName) {
+        Topic topic = findTopicById(topicId);
+        topic.setName(topicName);
+        topicRepository.save(topic);
+        return topic;
+    }
+
 
     @Override
     public Topic findTopicById(Long topicId) {
@@ -50,4 +56,21 @@ public class TopicServiceImpl implements TopicService {
     public List<Topic> getAllTopics() {
         return topicRepository.findByOrderByCreatedDate();
     }
+
+    @Override
+    public Paged getTopicsPage(int pageNumber, int size) {
+        PageRequest request = PageRequest.of(pageNumber - 1, size);
+        Page<Topic> postPage = setTopics(request);
+        return new Paged<>(postPage, Paging.of(postPage.getTotalPages(), pageNumber, size));
+    }
+
+    // TODO: 16.11.2021 can be also found by topic name
+    private Page<Topic> setTopics(Pageable pageable) {
+//        if (name.isEmpty())
+//            return findAllTopics(pageable);
+//        return findStudentsByPIB(name, pageable);
+        return topicRepository.findAllByOrderByCreatedDate(pageable);
+    }
+
+
 }
