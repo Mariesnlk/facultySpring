@@ -48,9 +48,9 @@
                         <div class="nav-menu">
                             <nav class="mainmenu">
                                 <ul>
+                                    <li><a th:href="@{/my_courses}">My Courses</a></li>
                                     <li><a th:href="@{/courses}">Courses</a></li>
                                     <li><a th:href="@{/teachers}">Teachers</a></li>
-                                    <li><a th:href="@{/grades}">Grades</a></li>
                                     <li><a th:href="@{/about}">About us</a></li>
                                     <li><a th:href="@{/contacts}">Contact info</a></li>
                                     <li sec:authorize="isAuthenticated()">

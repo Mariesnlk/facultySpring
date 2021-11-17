@@ -13,12 +13,12 @@ public class Utility {
         return siteURL.replace(request.getServletPath(), "");
     }
 
-    public static List<CourseStatus> getAllCoursesStatus() {
-        List<CourseStatus> courseStatuses = new ArrayList<>();
-        courseStatuses.add(CourseStatus.NOT_STARTED);
-        courseStatuses.add(CourseStatus.STARTED);
-        courseStatuses.add(CourseStatus.IN_PROGRESS);
-        courseStatuses.add(CourseStatus.FINISH);
+    public static List<String> getAllCoursesStatus() {
+        List<String> courseStatuses = new ArrayList<>();
+        courseStatuses.add(CourseStatus.NOT_STARTED.name());
+        courseStatuses.add(CourseStatus.STARTED.name());
+        courseStatuses.add(CourseStatus.IN_PROGRESS.name());
+        courseStatuses.add(CourseStatus.FINISH.name());
         return courseStatuses;
     }
 

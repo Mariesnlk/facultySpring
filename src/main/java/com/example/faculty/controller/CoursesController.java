@@ -2,6 +2,7 @@ package com.example.faculty.controller;
 
 import com.example.faculty.database.entity.Course;
 import com.example.faculty.database.entity.User;
+import com.example.faculty.models.enums.CourseStatus;
 import com.example.faculty.models.requests.CourseDto;
 import com.example.faculty.services.interfaces.CourseService;
 import com.example.faculty.services.interfaces.TopicService;
@@ -109,6 +110,35 @@ public class CoursesController {
     public String deleteCourse(@PathVariable("id") long id, Model model) {
         courseService.deleteCourse(id);
         return "redirect:/courses";
+    }
+
+    // TODO: 17.11.2021 not working filters
+    @GetMapping("/my_courses")
+    public String coursesGet(Model model,
+                             @RequestParam(value = "courseName", defaultValue = "") String courseName,
+                             @RequestParam(value = "duration", defaultValue = "0") Integer duration,
+                             @RequestParam(value = "studentsAmount", defaultValue = "0") Integer studentsAmount,
+                             @RequestParam(value = "topic", defaultValue = "...") String topic,
+                             @RequestParam(value = "teacher", defaultValue = "") String teacher,
+                             @RequestParam(value = "sortType", defaultValue = "ASC") String sortType,
+                             @RequestParam(value = "status", defaultValue = "...") String status,
+                             @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
+                             @RequestParam(value = "size", required = false, defaultValue = "2") int size) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        model.addAttribute("courseName", courseName);
+        model.addAttribute("duration", duration);
+        model.addAttribute("studentsAmount", studentsAmount);
+        model.addAttribute("classes", setBtnClass(sortType));
+        model.addAttribute("topicList", topicService.getAllTopics());
+        model.addAttribute("teacher", teacher);
+        model.addAttribute("sortType", sortType);
+        // TODO: 17.11.2021 fix dropdown in ui
+        model.addAttribute("statusList", Utility.getAllCoursesStatus());
+        model.addAttribute("courses", courseService.getCoursesPage(courseName, duration, studentsAmount,
+                topic, teacher, status, pageNumber, size, sortType));
+        model.addAttribute("user", user);
+        return "/courses/all_Courses";
     }
 
 }

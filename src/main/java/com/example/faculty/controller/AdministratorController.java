@@ -99,7 +99,7 @@ public class AdministratorController {
     }
 
     // TODO: 16.11.2021 not working 
-    @GetMapping("/topic/edit/{id}")
+    @GetMapping("/topic/update/{id}")
     public ModelAndView showUpdateTopicForm(@PathVariable("id") long id, ModelAndView modelAndView, Model model) {
         Topic topic = topicService.findTopicById(id);
         model.addAttribute("topic", topic);
@@ -108,16 +108,17 @@ public class AdministratorController {
         return modelAndView;
     }
 
+    // TODO: 17.11.2021 not working redirect 
     @PostMapping("/topic/update/{id}")
     public String updateTopic(@PathVariable("id") long id, @Valid TopicDto topicDto, Model model) {
         Topic topic = topicService.updateTopic(id, topicDto.getName());
-        return "redirect:/topic/topics";
+        return "redirect:/topics";
     }
 
     @GetMapping("/topic/delete/{id}")
     public String deleteTopic(@PathVariable("id") long id, Model model) {
         topicService.deleteTopic(id);
-        return "redirect:/topic/topics";
+        return "redirect:/topics";
     }
 
     // TODO: 16.11.2021  add param name

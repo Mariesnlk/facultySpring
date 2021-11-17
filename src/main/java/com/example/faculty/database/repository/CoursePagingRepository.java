@@ -1,6 +1,7 @@
 package com.example.faculty.database.repository;
 
 import com.example.faculty.database.entity.Course;
+import com.example.faculty.models.enums.CourseStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -22,6 +23,19 @@ public interface CoursePagingRepository extends PagingAndSortingRepository<Cours
     Page<Course> findAllByParams(@Param("courseName") List<String> courseName, @Param("duration") List<Integer> duration,
                                  @Param("studentsAmount") List<Integer> studentsAmount, @Param("topic") List<String> topic,
                                  @Param("teacherId") List<Integer> teacherId, Pageable pageable);
+
+
+    @Query("select c from Course c where " +
+            "c.name in (:courseName) and " +
+            "c.duration in (:duration) and " +
+            "c.studentsAmount in (:studentsAmount) and " +
+            "c.topic.name in (:topic) and " +
+            "c.teacherId.id in (:teacherId) and " +
+            "c.status in (:status)")
+    Page<Course> findAllByNewParams(@Param("courseName") List<String> courseName, @Param("duration") List<Integer> duration,
+                                    @Param("studentsAmount") List<Integer> studentsAmount, @Param("topic") List<String> topic,
+                                    @Param("teacherId") List<Integer> teacherId, @Param("status") List<String> status,
+                                    Pageable pageable);
 
 
     @Query("select c from Course c where c.teacherId.id is null")

@@ -1,12 +1,14 @@
 package com.example.faculty.services.implementation;
 
 import com.example.faculty.database.entity.Course;
+import com.example.faculty.database.entity.Topic;
 import com.example.faculty.database.repository.CoursePagingRepository;
 import com.example.faculty.database.repository.CourseRepository;
 import com.example.faculty.exception.BadRequestException;
 import com.example.faculty.models.enums.CourseStatus;
 import com.example.faculty.models.requests.CourseDto;
 import com.example.faculty.services.interfaces.CourseService;
+import com.example.faculty.util.Utility;
 import com.example.faculty.util.paging.Paged;
 import com.example.faculty.util.paging.Paging;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +43,7 @@ public class CourseServiceImpl implements CourseService {
                 .studentsAmount(courseDto.getStudentsAmount())
                 .topic(courseDto.getTopicId())
                 .teacherId(courseDto.getTeacherId())
-                .status(CourseStatus.NOT_STARTED)
+                .status(CourseStatus.NOT_STARTED.name())
                 .build());
     }
 
@@ -59,13 +61,18 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public Course updateCourse(Course course) {
+        return courseRepository.save(course);
+    }
+
+    @Override
     public Course findCourseById(Long courseId) {
         return courseRepository.findCourseById(courseId).orElseThrow(
                 () -> new BadRequestException("Course with id " + courseId + " does not exist!"));
     }
 
     @Override
-    public void changeCourseStatus(Long courseId, CourseStatus status) {
+    public void changeCourseStatus(Long courseId, String status) {
         Course course = findCourseById(courseId);
         course.setStatus(status);
         courseRepository.save(course);
@@ -80,6 +87,14 @@ public class CourseServiceImpl implements CourseService {
     public Paged getCoursesPage(String courseName, Integer duration, Integer studentsAmount, String topic, String teacher, int pageNumber, int size, String sortType) {
         Pageable request = PageRequest.of(pageNumber - 1, size, setSort(sortType));
         Page<Course> postPage = setCourses(courseName, duration, studentsAmount, topic, teacher, request);
+        return new Paged<>(postPage, Paging.of(postPage.getTotalPages(), pageNumber, size));
+    }
+
+    @Override
+    public Paged getCoursesPage(String courseName, Integer duration, Integer studentsAmount, String topic, String teacher,
+                                String courseStatus, int pageNumber, int size, String sortType) {
+        Pageable request = PageRequest.of(pageNumber - 1, size, setSort(sortType));
+        Page<Course> postPage = setNewCourses(courseName, duration, studentsAmount, topic, teacher, courseStatus, request);
         return new Paged<>(postPage, Paging.of(postPage.getTotalPages(), pageNumber, size));
     }
 
@@ -99,10 +114,28 @@ public class CourseServiceImpl implements CourseService {
                 setTopicsParam(topic), setTeacherNameParam(teacher), pageable);
     }
 
+    // TODO: 17.11.2021 findAllCoursesOrderByStudentId findAllCoursesOrderByTeacherId 
+    private Page<Course> setNewCourses(String courseName, Integer duration, Integer studentsAmount, String topic, String teacher,
+                                    String status, Pageable pageable) {
+
+        if (courseName.isEmpty() && duration == 0 && studentsAmount == 0
+                && topic.equals("...") && teacher.isEmpty()) {
+            return findAllCourses(pageable);
+        }
+        return findAllCoursesByNewParams(setCourseNameParam(courseName), setDurationParam(duration), setCapacityParam(studentsAmount),
+                setTopicsParam(topic), setTeacherNameParam(teacher), setCourseStatusParam(status), pageable);
+    }
+
     public Page<Course> findAllCoursesByParams(List<String> courseName, List<Integer> duration,
                                                List<Integer> capacity, List<String> topic,
                                                List<Integer> teacherId, Pageable pageable) {
         return coursePagingRepository.findAllByParams(courseName, duration, capacity, topic, teacherId, pageable);
+    }
+
+    public Page<Course> findAllCoursesByNewParams(List<String> courseName, List<Integer> duration,
+                                               List<Integer> capacity, List<String> topic,
+                                               List<Integer> teacherId, List<String> statuses, Pageable pageable) {
+        return coursePagingRepository.findAllByNewParams(courseName, duration, capacity, topic, teacherId, statuses, pageable);
     }
 
     private List<String> setCourseNameParam(String courseName) {
@@ -115,6 +148,10 @@ public class CourseServiceImpl implements CourseService {
 
     private List<Integer> setCapacityParam(Integer capacity) {
         return capacity == 0 ? findAllStudentsAmount() : List.of(capacity);
+    }
+
+    private List<String> setCourseStatusParam(String courseStatus) {
+        return courseStatus.equals("...") ? Utility.getAllCoursesStatus() : List.of(courseStatus);
     }
 
     private List<String> setTopicsParam(String topics) {

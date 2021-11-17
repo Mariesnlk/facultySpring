@@ -29,7 +29,7 @@
             <tbody>
             <tr th:each="topic, iter:${topics.page}">
                 <td th:text="${topic.name}" class="table-success"></td>
-                <td class="edit-delete"><a th:href="@{/topic/edit/{id}(id=${topic.id})}">Edit</a></td>
+                <td class="edit-delete"><a th:href="@{/topic/update/{id}(id=${topic.id})}">Edit</a></td>
                 <td class="edit-delete"><a th:href="@{/topic/delete/{id}(id=${topic.id})}">Delete</a></td>
             </tr>
             </tbody>

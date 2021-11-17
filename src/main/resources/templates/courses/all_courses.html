@@ -97,6 +97,25 @@
                            placeholder="teacher name">
                 </div>
             </div>
+
+        <th:block th:if="${user.getUserRoleName() == 'STUDENT'}">
+            <div class="row">
+                <div class="col-md-2">
+                    <span class="input-group-text">Course status</span>
+                </div>
+                <div class="col-md-4">
+                    <select name="status" class="custom-select">
+                        <option th:value="..." th:text="..." th:selected="(${status}=='...')">...</option>
+                        <option
+                                th:each="s:${statusList}"
+                                th:text="${s}"
+                                th:selected="(${status}==${s})"
+                        />
+                    </select>
+                </div>
+            </div>
+        </th:block>
+
         </div>
 
         <div class="form-group">
@@ -142,7 +161,7 @@
                         <td class="edit-delete"><a th:href="@{/courses/delete/{id}(id=${course.id})}">Delete</a></td>
                     </th:block>
                     <th:block th:if="${user.getUserRoleName() == 'STUDENT'}">
-                        <td class="edit-delete">Enroll</td>
+                        <td class="edit-delete"><a th:href="@{/enroll/course/{courseId}(courseId=${course.id})}">Enroll</a></td>
                     </th:block>
                 </tr>
                 </tbody>

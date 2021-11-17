@@ -1,8 +1,10 @@
 package com.example.faculty.controller;
 
 import com.example.faculty.database.entity.User;
+import com.example.faculty.models.enums.CourseStatus;
 import com.example.faculty.models.requests.UserUpdate;
 import com.example.faculty.services.interfaces.CourseService;
+import com.example.faculty.services.interfaces.EnrollService;
 import com.example.faculty.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -23,6 +26,9 @@ public class StudentController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    EnrollService enrollService;
 
     @GetMapping("/student")
     public String getStudent(Model model) {
@@ -67,6 +73,15 @@ public class StudentController {
     public String deleteUser(@PathVariable("id") long id, Model model) {
         userService.deleteUser(id);
         return "redirect:/index";
+    }
+
+    // TODO: 18.11.2021 check exception 
+    @GetMapping("/enroll/course/{courseId}")
+    public String enroll(@PathVariable("courseId") Long courseId) throws Exception {
+        Long studentId = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        System.out.println(studentId );
+        enrollService.enroll(studentId, courseId);
+        return "redirect:/courses";
     }
 
 }

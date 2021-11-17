@@ -7,7 +7,5 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class TopicDto {
-    @NotNull
-    @NotEmpty
     private String name;
 }

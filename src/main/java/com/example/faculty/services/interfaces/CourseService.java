@@ -16,13 +16,19 @@ public interface CourseService {
 
     Course updateCourse(Long courseId, CourseDto courseDto);
 
+    Course updateCourse(Course course);
+
     Course findCourseById(Long courseId);
 
-    void changeCourseStatus(Long courseId, CourseStatus status);
+    void changeCourseStatus(Long courseId, String status);
 
     void deleteCourse(Long courseId);
 
-    Paged getCoursesPage(String courseName, Integer duration, Integer studentsAmount, String topic, String teacher, int pageNumber, int size, String sortType);
+    Paged getCoursesPage(String courseName, Integer duration, Integer studentsAmount, String topic,
+                         String teacher, int pageNumber, int size, String sortType);
+
+    Paged getCoursesPage(String courseName, Integer duration, Integer studentsAmount, String topic,
+                         String teacher, String courseStatus, int pageNumber, int size, String sortType);
 
     Page<Course> findAllCourses(Pageable pageable);
 

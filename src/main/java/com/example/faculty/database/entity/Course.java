@@ -43,7 +43,9 @@ public class Course  {
     @Column(name = "students_amount")
     private Integer studentsAmount;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private CourseStatus status;
+    @Column(name = "enroll_students")
+    private Integer enrollStudents;
+
+    @Column(name = "status")
+    private String status;
 }
