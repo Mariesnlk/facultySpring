@@ -1,6 +1,7 @@
 package com.example.faculty.controller;
 
 import com.example.faculty.database.entity.User;
+import com.example.faculty.models.requests.UserUpdate;
 import com.example.faculty.services.interfaces.CourseService;
 import com.example.faculty.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,23 +31,35 @@ public class StudentController {
         return "/user/student";
     }
 
-    @GetMapping("/student/edit")
-    public String showUpdateForm(Model model){
+    @GetMapping("/student/update")
+    public String showUpdateForm(Model model) {
         User student = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", student);
         return "/user/student/edit";
     }
 
-    // TODO: 15.11.2021 not working update
-
+    // TODO: 17.11.2021 not working updated teacher? but it store in db need to login one more time
     @PostMapping("/student/update")
-    public String updateStudent(@Valid User user, BindingResult result, Model model) {
+    public String updateStudent(@Valid UserUpdate userUpdate, BindingResult result, Model model) {
         User student = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (result.hasErrors()) {
-            return "redirect:/student/edit";
-        }
-        userService.saveStudent(user);
-        return "/user/student";
+
+        User updatedUser = User.builder()
+                .id(student.getId())
+                .firstName(userUpdate.getFirstName())
+                .secondName(userUpdate.getSecondName())
+                .lastName(userUpdate.getLastName())
+                .email(userUpdate.getEmail())
+                .password(student.getPassword())
+                .roles(student.getRoles())
+                .userRoleName(student.getUserRoleName())
+                .build();
+
+//        if (result.hasErrors()) {
+//            return "redirect:/student/edit";
+//        }
+        userService.updateUser(updatedUser);
+        model.addAttribute("user", student);
+        return "redirect:/student";
     }
 
     //<a th:href="@{/delete/{id}(id=${user.id})}">Delete</a>

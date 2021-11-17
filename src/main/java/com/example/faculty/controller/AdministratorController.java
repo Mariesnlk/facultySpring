@@ -4,6 +4,7 @@ import com.example.faculty.database.entity.Topic;
 import com.example.faculty.database.entity.User;
 import com.example.faculty.models.requests.TopicDto;
 import com.example.faculty.models.requests.UserCreateDto;
+import com.example.faculty.models.requests.UserUpdate;
 import com.example.faculty.services.implementation.EmailSenderService;
 import com.example.faculty.services.interfaces.CourseService;
 import com.example.faculty.services.interfaces.TopicService;
@@ -46,24 +47,35 @@ public class AdministratorController {
         return "/user/admin";
     }
 
-    // TODO: 15.11.2021 test
-    @GetMapping("/admin/edit")
+    @GetMapping("/admin/update")
     public String showUpdateAdminForm(Model model) {
         User admin = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("user", admin);
         return "/user/admin/edit";
     }
 
-    // TODO: 15.11.2021 not working update
-
+    // TODO: 17.11.2021 not working updated teacher? but it store in db need to login one more time
     @PostMapping("/admin/update")
-    public String updateAdmin(@Valid User user, BindingResult result, Model model) {
+    public String updateAdmin(@Valid UserUpdate userUpdate, BindingResult result, Model model) {
         User admin = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (result.hasErrors()) {
-            return "redirect:/admin/edit";
-        }
-        userService.saveStudent(user);
-        return "/user/teacher";
+
+        User updatedUser = User.builder()
+                .id(admin.getId())
+                .firstName(userUpdate.getFirstName())
+                .secondName(userUpdate.getSecondName())
+                .lastName(userUpdate.getLastName())
+                .email(userUpdate.getEmail())
+                .password(admin.getPassword())
+                .roles(admin.getRoles())
+                .userRoleName(admin.getUserRoleName())
+                .build();
+
+//        if (result.hasErrors()) {
+//            return "redirect:/student/edit";
+//        }
+        userService.updateUser(updatedUser);
+        model.addAttribute("user", updatedUser);
+        return "redirect:/admin";
     }
 
     @GetMapping("/topicsAll")
