@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+<div th:fragment="add-course">
+
+    <h1>Add a new course</h1>
+    <form action="#" th:action="@{/courses/create" th:object="${course}" method="post" class="form">
+
+        <div class="form-group">
+            <label for="name">Course name *</label>
+            <input class="form-control" type="text" th:field="*{name}" id="name"
+                   placeholder="Enter topic name">
+            <div th:if="${#fields.hasErrors('name')}">
+                <div class="alert alert-danger">Invalid name.</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="topic">Topic *</label>
+            <select th:name="topicId" class="custom-select" id="topic">
+                <option
+                        th:each="t:${topics}"
+                        th:value="${t.getId()}"
+                        th:text="${t.getName()}"/>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="studentsAmount">Students amount *</label>
+            <input class="form-control" aria-label="With textarea" type="number" id="studentsAmount"
+                   th:min="10" th:max="60" th:field="*{studentsAmount}" placeholder="amount">
+        </div>
+
+        <div class="form-group">
+            <label for="duration">Course duration *</label>
+            <input class="form-control" aria-label="With textarea" type="number" id="duration"
+                   th:min="1" th:max="2" th:field="*{duration}" placeholder="duration">
+        </div>
+
+        <div class="form-group">
+            <label for="teacherId">Teacher *</label>
+            <select th:name="teacherId" class="custom-select" id="teacherId">
+                <option
+                        th:each="t:${teachers}"
+                        th:value="${t.getId()}"
+                        th:text="${t.getLastName()} + ' ' + ${t.getFirstName()} + ' ' + ${t.getSecondName()}"/>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">Save</button>
+        </div>
+    </form>
+
+</div>
+</html>

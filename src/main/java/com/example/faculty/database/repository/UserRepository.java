@@ -19,4 +19,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     Page<User> getAllByUserRoleNameOrderByCreatedDate(String userRoleName, Pageable pageable);
 
+    User getUserById(Long userId);
+
 }

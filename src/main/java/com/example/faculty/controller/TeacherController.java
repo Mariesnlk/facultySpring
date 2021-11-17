@@ -42,11 +42,11 @@ public class TeacherController {
 
     @PostMapping("/teacher/update")
     public String updateTeacher(@Valid User user, BindingResult result, Model model) {
-        User teacher = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        User teacher = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (result.hasErrors()) {
             return "redirect:/teacher/edit";
         }
-        userService.saveStudent(user);
+        userService.updateUser(user);
         return "/user/teacher";
     }
 }

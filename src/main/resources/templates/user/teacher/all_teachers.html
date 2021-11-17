@@ -15,7 +15,12 @@
 </head>
 <body>
 
-<div th:replace="fragments/nav-admin.html :: nav-admin"></div>
+<th:block th:if="${user.getUserRoleName() == 'ADMINISTRATOR'}">
+    <div th:replace="fragments/nav-admin.html :: nav-admin"></div>
+</th:block>
+<th:block th:if="${user.getUserRoleName() == 'STUDENT'}">
+    <div th:replace="fragments/nav-student.html :: nav-student"></div>
+</th:block>
 
 <div th:switch="${teachers}" id="table">
     <div th:case="*">
@@ -35,7 +40,9 @@
                 <td th:text="${teacher.email}"
                     class="table-success"></td>
                 <td class="table-success"> to be</td>
-                <td class="edit-delete"><a th:href="@{/teacher/delete/{id}(id=${teacher.id})}">Delete</a></td>
+                <th:block th:if="${user.getUserRoleName() == 'ADMINISTRATOR'}">
+                    <td class="edit-delete"><a th:href="@{/teacher/delete/{id}(id=${teacher.id})}">Delete</a></td>
+                </th:block>
             </tr>
             </tbody>
         </table>

@@ -16,25 +16,5 @@ public interface CourseRepository extends CrudRepository<Course, Long> {
 
     Boolean existsCourseByName(String name);
 
-    Page<Course> findAll(Pageable pageable);
-
-    List<Course> findCoursesByIdTeacherOrderByCreatedDate(Long teacherId);
-
-    List<Course> findCoursesByIdTopic(Long topicId);
-
-    //List<Course> findCoursesByNameOrderByCreated(String courseName);
-
-    Page<Course> findCoursesByIdTopic(Long topicId, Pageable pageable);
-
-    //Page<Course> findCoursesByNameOrderByCreated(String courseName, Pageable pageable);
-
-//    @Query(value = "select c from Course c where " +
-//            "c.name in (:name) and " +
-//            "c.duration in (:duration) and " +
-//            "c.studentsAmount in (:studentsAmount) and " +
-//            "c.idTeacher in (:teacherId)", nativeQuery = true)
-//    List<Course> findAllByParams(@Param("name") List<String> name, @Param("duration") List<Integer> duration,
-//                                 @Param("studentsAmount") List<Integer> studentsAmount,
-//                                 @Param("idTeacher") List<Integer> teacherId, Pageable pageable);
-
+    Page<Course> findAllBy(Pageable pageable);
 }

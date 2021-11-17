@@ -8,13 +8,9 @@ import com.example.faculty.services.implementation.EmailSenderService;
 import com.example.faculty.services.interfaces.CourseService;
 import com.example.faculty.services.interfaces.TopicService;
 import com.example.faculty.services.interfaces.UserService;
-import com.example.faculty.util.Utility;
-import javassist.NotFoundException;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,10 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
-import java.io.UnsupportedEncodingException;
 
 @Controller
 public class AdministratorController {
@@ -142,6 +135,8 @@ public class AdministratorController {
                               @RequestParam(value = "size", required = false, defaultValue = "4") int size) {
 
         model.addAttribute("teachers", userService.getTeachersPage(pageNumber, size));
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user", user);
         return "/user/teacher/all_teachers";
     }
 

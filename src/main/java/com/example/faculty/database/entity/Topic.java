@@ -5,6 +5,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,5 +25,10 @@ public class Topic {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "topic")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Course> courses;
 
 }

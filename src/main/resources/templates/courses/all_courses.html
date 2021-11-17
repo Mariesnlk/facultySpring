@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>All courses</title>
+
+    <link href="/static/css/userPage.css" rel="stylesheet">
+    <link href="/static/css/header.css" rel="stylesheet">
+    <link href="/static/css/table.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+
+</head>
+<body>
+
+<th:block th:if="${user.getUserRoleName() == 'ADMINISTRATOR'}">
+    <div th:replace="fragments/nav-admin.html :: nav-admin"></div>
+</th:block>
+<th:block th:if="${user.getUserRoleName() == 'STUDENT'}">
+    <div th:replace="fragments/nav-student.html :: nav-student"></div>
+</th:block>
+
+<div class="container p-3">
+    <form action="/courses" method="get">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <span class="input-group-text">Course name</span>
+                </div>
+                <div class="col-md-4">
+                    <input class="form-control" aria-label="With textarea" type="text" name="courseName"
+                           placeholder="course name">
+                </div>
+                <div class="col-md-2">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input id="asc" type="radio" name="sortType" th:value="ASC"
+                                   th:checked="${sortType == 'ASC'}"
+                                   hidden/>
+                            <label for="asc" id="ascl" th:class="${classes.get(0)}" onclick="setASC()">ASC</label><br>
+                        </div>
+                        <div class="col-md-6">
+                            <input id="desc" type="radio" name="sortType" th:value="DESC"
+                                   th:checked="${sortType == 'DESC'}"
+                                   hidden/>
+                            <label for="desc" id="descl" th:class="${classes.get(1)}"
+                                   onclick="setDESC()">DESC</label><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <span class="input-group-text">Duration</span>
+                </div>
+                <div class="col-md-4">
+                    <input class="form-control" aria-label="With textarea" type="number" name="duration"
+                           placeholder="duration" th:min="1" th:max="2">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <span class="input-group-text"> Students amount</span>
+                </div>
+                <div class="col-md-4">
+                    <input class="form-control" aria-label="With textarea" type="number" name="studentsAmount"
+                           placeholder="students amount" th:min="10" th:max="60">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <span class="input-group-text">Topic</span>
+                </div>
+                <div class="col-md-4">
+                    <select name="topic" class="custom-select">
+                        <option th:value="..." th:text="..." th:selected="(${topic}=='...')">...</option>
+                        <option
+                                th:each="t:${topicList}"
+                                th:text="${t.getName()}"
+                                th:selected="(${topic}==${t.getName()})"
+                        />
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <span class="input-group-text">Teacher name</span>
+                </div>
+                <div class="col-md-4">
+                    <input class="form-control" aria-label="With textarea" type="text" name="teacher"
+                           placeholder="teacher name">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <input type="submit" name="filter-submit" id="filter-submit"
+                           class="form-control btn btn-primary" value="Filter"/>
+                </div>
+            </div>
+        </div>
+        <!--        <button type="submit" class="btn btn-success">Filter</button>-->
+    </form>
+
+    <div th:switch="${topics}" id="table">
+        <div th:case="*">
+            <h2>Courses</h2>
+            <table id="incomes_table" class="table table-bordered">
+                <thead>
+                <tr class="table-success">
+                    <th class="table-th">Course name</th>
+                    <th class="table-th">Topic name</th>
+                    <th class="table-th">Teacher name</th>
+                    <th class="table-th">Duration</th>
+                    <th class="table-th">Students amount</th>
+                    <th class="table-th">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="course, iter:${courses.page}">
+
+                    <td th:text="${course.getName()}"/>
+                    </td>
+                    <td th:text="${course.getTopic().getName()}"/>
+                    </td>
+                    <td th:if="${course.getTeacherId() != null}"
+                        th:text="${course.getTeacherId().getLastName()} + ' ' + ${course.getTeacherId().getFirstName().charAt(0)} + '.' + ${course.getTeacherId().getSecondName().charAt(0)} + '.' "/>
+                    <td th:if="${course.getTeacherId() == null}" th:text="#{courses.without_teacher}"/>
+                    <td th:text="${course.getDuration()}"/>
+                    <td th:text="${course.getStudentsAmount()}"/>
+                    <td th:text="${course.getStatus()}"/>
+                    <th:block th:if="${user.getUserRoleName() == 'ADMINISTRATOR'}">
+                        <td class="edit-delete"><a th:href="@{/courses/edit/{id}(id=${course.id})}">Edit</a></td>
+                        <td class="edit-delete"><a th:href="@{/courses/delete/{id}(id=${course.id})}">Delete</a></td>
+                    </th:block>
+                    <th:block th:if="${user.getUserRoleName() == 'STUDENT'}">
+                        <td class="edit-delete">Enroll</td>
+                    </th:block>
+                </tr>
+                </tbody>
+            </table>
+
+            <!------ Paging ------->
+            <div class="con-pagination">
+                <nav aria-label="Page navigation" class="paging">
+                    <ul class="pagination" th:if="${courses.page.totalPages > 1}">
+                        <li class="page-item" th:classappend="${!courses.paging.isPrevEnabled()? 'disabled' : ''}">
+                            <a class="page-link"
+                               th:href="@{'/courses?pageNumber=' + ${courses.paging.pageNumber - 1} + '&name='+${name} }"
+                               tabindex="-1">Previous</a>
+                        </li>
+                        <th:block th:each="item : ${courses.paging.getItems()}">
+                            <li class="page-item"
+                                th:classappend="${item.index == courses.paging.pageNumber? 'active' : ''}"
+                                th:if="${item.pageItemType.name() == 'PAGE'}">
+                                <a class="page-link"
+                                   th:href="@{'/courses?pageNumber=' + ${item.index} + '&name='+${name}}"
+                                   th:text="${item.index}"></a>
+                            </li>
+                            <li class="page-item disabled" th:if="${item.pageItemType.name() == 'DOTS'}">
+                                <a class="page-link" href="#">...</a>
+                            </li>
+                        </th:block>
+                        <li class="page-item" th:classappend="${!courses.paging.isNextEnabled()? 'disabled' : ''}">
+                            <a class="page-link"
+                               th:href="@{'/courses?pageNumber=' + ${courses.paging.pageNumber + 1} + '&name='+${name}}">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <!------- Paging ------>
+
+        </div>
+
+        <div class="container">
+            <p><a id="add-new" href="/courses/create">Add a new course</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function setASC() {
+        document.getElementById("ascl").classList.remove("btn-outline-primary");
+        document.getElementById("ascl").classList.add("btn-primary");
+        document.getElementById("descl").classList.remove("btn-danger");
+        document.getElementById("descl").classList.add("btn-outline-danger");
+    }
+
+    function setDESC() {
+        document.getElementById("ascl").classList.remove("btn-primary");
+        document.getElementById("ascl").classList.add("btn-outline-primary");
+        document.getElementById("descl").classList.remove("btn-outline-danger");
+        document.getElementById("descl").classList.add("btn-danger");
+    }
+
+</script>
+
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

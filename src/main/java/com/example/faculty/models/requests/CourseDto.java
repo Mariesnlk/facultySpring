@@ -1,33 +1,22 @@
 package com.example.faculty.models.requests;
 
+import com.example.faculty.database.entity.Topic;
+import com.example.faculty.database.entity.User;
 import com.example.faculty.models.enums.CourseStatus;
 import lombok.Data;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Data
 public class CourseDto {
 
-    @NotNull
-    @NotEmpty
-    private String courseName;
+    private String name;
 
-    @NotNull
-    @NotEmpty
-    private int duration;
+    private Integer duration;
 
-    @NotNull
-    @NotEmpty
-    private int amountOfStudent;
+    private Integer studentsAmount;
 
-    @NotNull
-    @NotEmpty
-    private Long topicId;
+    private Topic topicId;
 
-    @NotNull
-    @NotEmpty
-    private Long teacherId;
+    private User teacherId;
 
     private CourseStatus courseStatus;
 }

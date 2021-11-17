@@ -11,6 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -69,6 +70,10 @@ public class User implements UserDetails {
 
     @Column(name = "one_user_role")
     private String userRoleName;
+
+    @OneToMany(mappedBy = "topic")
+    @EqualsAndHashCode.Exclude
+    private List<Course> courses;
 
     @Override
     public String getUsername() {

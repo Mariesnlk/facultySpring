@@ -4,6 +4,7 @@ import com.example.faculty.models.enums.CourseStatus;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Validated
 @Table(name = "course")
 public class Course  {
 
@@ -24,20 +26,22 @@ public class Course  {
     @Column(name = "created_date")
     private LocalDate createdDate = LocalDate.now();//.getTime();
 
-    @Column(name = "id_topic")
-    private Long idTopic;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "topic_id")
+    private Topic topic;
 
-    @Column(name = "id_teacher")
-    private Long idTeacher;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "teacher_id")
+    private User teacherId;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "email")
-    private int duration;
+    private Integer duration;
 
     @Column(name = "students_amount")
-    private int studentsAmount;
+    private Integer studentsAmount;
 
     @NotNull
     @Enumerated(EnumType.STRING)
