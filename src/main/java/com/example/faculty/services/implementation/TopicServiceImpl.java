@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -28,6 +29,7 @@ public class TopicServiceImpl implements TopicService {
             throw new BadRequestException("This topic " + name + " is already exists");
 
         topicRepository.save(Topic.builder()
+                .createdDate(LocalDate.now())
                 .name(name)
                 .build());
     }
@@ -35,6 +37,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public Topic updateTopic(Long topicId, String topicName) {
         Topic topic = findTopicById(topicId);
+        topic.setCreatedDate(LocalDate.now());
         topic.setName(topicName);
         topicRepository.save(topic);
         return topic;
@@ -69,7 +72,7 @@ public class TopicServiceImpl implements TopicService {
 //        if (name.isEmpty())
 //            return findAllTopics(pageable);
 //        return findStudentsByPIB(name, pageable);
-        return topicRepository.findAllByOrderByCreatedDate(pageable);
+        return topicRepository.findAllByOrderByCreatedDateDesc(pageable);
     }
 
 

@@ -2,7 +2,6 @@ package com.example.faculty.controller;
 
 import com.example.faculty.database.entity.Course;
 import com.example.faculty.database.entity.User;
-import com.example.faculty.models.enums.CourseStatus;
 import com.example.faculty.models.requests.CourseDto;
 import com.example.faculty.services.interfaces.CourseService;
 import com.example.faculty.services.interfaces.TopicService;

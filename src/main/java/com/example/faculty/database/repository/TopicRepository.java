@@ -19,6 +19,6 @@ public interface TopicRepository extends CrudRepository<Topic, Long> {
 
     List<Topic> findByOrderByCreatedDate();
 
-    Page<Topic> findAllByOrderByCreatedDate(Pageable pageable);
+    Page<Topic> findAllByOrderByCreatedDateDesc(Pageable pageable);
 
 }

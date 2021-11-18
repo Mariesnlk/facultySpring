@@ -26,8 +26,8 @@ public class TeacherController {
 
     @GetMapping("/teacher")
     public String getTeacher(Model model) {
-        User teacher = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("teacher", teacher);
+        Long userId = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        model.addAttribute("teacher", userService.getUser(userId));
         return "/user/teacher";
     }
 
@@ -38,7 +38,6 @@ public class TeacherController {
         return "/user/teacher/edit";
     }
 
-    // TODO: 17.11.2021 not working updated teacher? but it store in db need to login one more time
     @PostMapping("/teacher/update")
     public String updateTeacher(@Valid UserUpdate userUpdate, BindingResult result, Model model) {
         User teacher = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -58,7 +57,6 @@ public class TeacherController {
 //            return "redirect:/student/edit";
 //        }
         userService.updateUser(updatedUser);
-        model.addAttribute("user", teacher);
         return "redirect:/teacher";
     }
 }

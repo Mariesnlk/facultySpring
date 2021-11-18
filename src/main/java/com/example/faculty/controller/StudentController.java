@@ -7,6 +7,8 @@ import com.example.faculty.services.interfaces.CourseService;
 import com.example.faculty.services.interfaces.EnrollService;
 import com.example.faculty.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.Collection;
 
 @Controller
 public class StudentController {
@@ -32,8 +35,8 @@ public class StudentController {
 
     @GetMapping("/student")
     public String getStudent(Model model) {
-        User student = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("student", student);
+        Long userId = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        model.addAttribute("student", userService.getUser(userId));
         return "/user/student";
     }
 
@@ -64,7 +67,6 @@ public class StudentController {
 //            return "redirect:/student/edit";
 //        }
         userService.updateUser(updatedUser);
-        model.addAttribute("user", student);
         return "redirect:/student";
     }
 
@@ -75,7 +77,7 @@ public class StudentController {
         return "redirect:/index";
     }
 
-    // TODO: 18.11.2021 check exception 
+    // TODO: 18.11.2021 check exception
     @GetMapping("/enroll/course/{courseId}")
     public String enroll(@PathVariable("courseId") Long courseId) throws Exception {
         Long studentId = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();

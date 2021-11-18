@@ -1,7 +1,15 @@
-.hero-section{
+.hero-section {
     background-image: url("/static/img/background.png");
     background-repeat: no-repeat;
     background-size: cover;
     margin: 1% 1% 1% 1%;
     height: 400px;
+}
+
+p {
+    font-size: 30px;
+}
+
+span, a {
+    font-size: 20px;
 }

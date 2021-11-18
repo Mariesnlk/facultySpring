@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,8 +43,8 @@ public class AdministratorController {
 
     @GetMapping("/admin")
     public String getStudent(Model model) {
-        User admin = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute("admin", admin);
+        Long userId = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        model.addAttribute("admin", userService.getUser(userId));
         return "/user/admin";
     }
 
@@ -54,7 +55,6 @@ public class AdministratorController {
         return "/user/admin/edit";
     }
 
-    // TODO: 17.11.2021 not working updated teacher? but it store in db need to login one more time
     @PostMapping("/admin/update")
     public String updateAdmin(@Valid UserUpdate userUpdate, BindingResult result, Model model) {
         User admin = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -74,7 +74,6 @@ public class AdministratorController {
 //            return "redirect:/student/edit";
 //        }
         userService.updateUser(updatedUser);
-        model.addAttribute("user", updatedUser);
         return "redirect:/admin";
     }
 
@@ -85,7 +84,7 @@ public class AdministratorController {
     }
 
     @GetMapping("/topic/add")
-    public ModelAndView addTopic(ModelAndView modelAndView, Model model, @Valid TopicDto topic) {
+    public ModelAndView addTopic(ModelAndView modelAndView, Model model, TopicDto topic) {
         modelAndView.addObject("topic", topic);
         modelAndView.addObject("condition", "add");
         modelAndView.setViewName("/topic/topic");
@@ -93,22 +92,19 @@ public class AdministratorController {
     }
 
     @PostMapping("/topic/add")
-    public String addTopic(@Valid TopicDto topic, BindingResult result, Model model) {
+    public String addTopic(@Valid @Validated TopicDto topic, BindingResult result, Model model) {
         topicService.createTopic(topic.getName());
-        return "redirect:/topic/topics";
+        return "redirect:/topics";
     }
 
-    // TODO: 16.11.2021 not working 
     @GetMapping("/topic/update/{id}")
-    public ModelAndView showUpdateTopicForm(@PathVariable("id") long id, ModelAndView modelAndView, Model model) {
+    public String showUpdateTopicForm(@PathVariable("id") long id, ModelAndView modelAndView, Model model) {
         Topic topic = topicService.findTopicById(id);
         model.addAttribute("topic", topic);
         model.addAttribute("condition", "edit");
-        modelAndView.setViewName("/topic/topic");
-        return modelAndView;
+        return "/topic/topic";
     }
 
-    // TODO: 17.11.2021 not working redirect 
     @PostMapping("/topic/update/{id}")
     public String updateTopic(@PathVariable("id") long id, @Valid TopicDto topicDto, Model model) {
         Topic topic = topicService.updateTopic(id, topicDto.getName());
