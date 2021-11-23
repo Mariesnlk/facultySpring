@@ -2,23 +2,20 @@ package com.example.faculty.controller;
 
 import com.example.faculty.database.entity.Topic;
 import com.example.faculty.database.entity.User;
-import com.example.faculty.models.requests.TopicDto;
-import com.example.faculty.models.requests.UserCreateDto;
-import com.example.faculty.models.requests.UserUpdate;
+import com.example.faculty.models.dto.TopicDto;
+import com.example.faculty.models.dto.UserCreateDto;
+import com.example.faculty.models.dto.UserUpdate;
 import com.example.faculty.services.implementation.EmailSenderService;
 import com.example.faculty.services.interfaces.CourseService;
 import com.example.faculty.services.interfaces.TopicService;
 import com.example.faculty.services.interfaces.UserService;
-import com.example.faculty.util.handlerExcaption.ErrorView;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 

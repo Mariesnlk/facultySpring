@@ -2,16 +2,13 @@ package com.example.faculty.controller;
 
 import com.example.faculty.database.entity.Course;
 import com.example.faculty.database.entity.User;
-import com.example.faculty.models.requests.CourseDto;
-import com.example.faculty.models.requests.StudentMarkDto;
+import com.example.faculty.models.dto.CourseDto;
 import com.example.faculty.services.interfaces.CourseService;
 import com.example.faculty.services.interfaces.GradeBookService;
 import com.example.faculty.services.interfaces.TopicService;
 import com.example.faculty.services.interfaces.UserService;
 import com.example.faculty.util.Utility;
-import com.example.faculty.util.handlerExcaption.ErrorView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,8 +34,7 @@ public class CoursesController {
     @Autowired
     GradeBookService gradeBookService;
 
-    // TODO: 17.11.2021 not working filters
-    @ErrorView(value = "error_view", status = HttpStatus.GONE)
+
     @GetMapping("/courses")
     public String coursesGet(Model model,
                              @RequestParam(value = "courseName", defaultValue = "") String courseName,
@@ -71,7 +67,6 @@ public class CoursesController {
         return List.of("btn btn-outline-primary", "btn btn-danger");
     }
 
-    // TODO: 19.11.2021 not working 
     @GetMapping("/courses/create")
     public ModelAndView createCourseGet(ModelAndView modelAndView, Model model, CourseDto courseDto) {
         model.addAttribute("topics", topicService.getAllTopics());
@@ -83,7 +78,6 @@ public class CoursesController {
         return modelAndView;
     }
 
-    // TODO: 19.11.2021 not working 
     @PostMapping("/courses/create")
     public String createCoursePost(@ModelAttribute("course") @Valid CourseDto courseDto,
                                    BindingResult result, Model model) {
@@ -100,7 +94,7 @@ public class CoursesController {
         return "redirect:/courses";
     }
 
-    @GetMapping("/courses/edit/{id}")
+    @GetMapping("/courses/update/{id}")
     public String showUpdateTopicForm(@PathVariable("id") long id, Model model) {
         Course course = courseService.findCourseById(id);
         model.addAttribute("course", course);
@@ -112,8 +106,15 @@ public class CoursesController {
     }
 
     @PostMapping("/courses/update/{id}")
-    public String editCourse(@PathVariable("id") long id, @Valid CourseDto courseDto, BindingResult result, Model model) {
+    public String editCourse(@PathVariable("id") long id,
+                             @ModelAttribute("course") @Valid CourseDto courseDto,
+                             BindingResult result, Model model) {
         if (result.hasErrors()) {
+            Course course = courseService.findCourseById(id);
+            model.addAttribute("course", course);
+            model.addAttribute("topics", topicService.getAllTopics());
+            model.addAttribute("teachers", userService.allTeachers());
+            model.addAttribute("statusList", Utility.getAllCoursesStatus());
             model.addAttribute("condition", "edit");
             return "/courses/course";
         }
@@ -122,12 +123,11 @@ public class CoursesController {
     }
 
     @GetMapping("/courses/delete/{id}")
-    public String deleteCourse(@PathVariable("id") long id, Model model) {
+    public String deleteCourse(@PathVariable("id") long id) {
         courseService.deleteCourse(id);
         return "redirect:/courses";
     }
 
-    // TODO: 17.11.2021 not working filters
     @GetMapping("/my_courses")
     public String myCoursesGet(Model model,
                                @RequestParam(value = "courseName", defaultValue = "") String courseName,
@@ -158,7 +158,7 @@ public class CoursesController {
     @GetMapping("/teacher_courses")
     public String teacherCoursesGet(Model model,
                                     @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                    @RequestParam(value = "size", required = false, defaultValue = "2") int size) {
+                                    @RequestParam(value = "size", required = false, defaultValue = "5") int size) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         model.addAttribute("courses", courseService.findAllCoursesByTeacher(user, pageNumber, size));
@@ -171,7 +171,7 @@ public class CoursesController {
     public String courseInfoGet(Model model,
                                 @PathVariable("id") Long id,
                                 @RequestParam(value = "pageNumber", required = false, defaultValue = "1") int pageNumber,
-                                @RequestParam(value = "size", required = false, defaultValue = "2") int size) {
+                                @RequestParam(value = "size", required = false, defaultValue = "5") int size) {
         model.addAttribute("course", courseService.findCourseById(id));
         model.addAttribute("studentsList", userService.findAllStudentsByIdCourse(id, pageNumber, size));
         return "/courses/course_info";
@@ -182,7 +182,7 @@ public class CoursesController {
                                   @PathVariable("studentId") Long studentId,
                                   @RequestParam("mark") Integer mark) {
         gradeBookService.saveMark(studentId, courseId, mark);
-        return "redirect:/courses/courses/{courseId}";
+        return "redirect:/courses/course/{courseId}";
     }
 
 }

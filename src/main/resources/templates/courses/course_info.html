@@ -104,17 +104,18 @@
             <tr th:each="student, iter:${studentsList.page}">
                 <td th:text="${student.getFirstName()} + ' ' + ${student.secondName} + ' ' + ${student.lastName}"
                     class="table-success"></td>
-                <th:block th:if="${course.getStatus() == 'FINISH'}">
-                    <form th:action="@{/course/{courseId}(courseId=${course.id})/student/{studentId}(studentId=${course.teacherId})}"
-                          method="post" class="form">
-                        <div class="form-group">
-                            <input type="number" th:value="${student.getMark()}" name="mark" th:min="0" th:max="100">
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-success">Save</button>
-                        </div>
-                    </form>
-                </th:block>
+                <td>
+                    <th:block th:if="${course.getStatus() == 'FINISH'}">
+                        <form th:action="@{/course/{courseId}/student/{studentId}(courseId = ${course.id}, studentId = ${student.id})}"
+                              method="post" class="form">
+                            <div class="form-group">
+                                <input type="number" th:value="${student.getMark()}" name="mark" th:min="60"
+                                       th:max="100">
+                                <button type="submit" class="btn btn-success">Save</button>
+                            </div>
+                        </form>
+                    </th:block>
+                </td>
             </tr>
             </tbody>
         </table>

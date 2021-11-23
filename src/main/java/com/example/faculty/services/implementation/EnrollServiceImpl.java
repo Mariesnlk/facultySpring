@@ -18,20 +18,23 @@ public class EnrollServiceImpl implements EnrollService {
     CourseService courseService;
 
     @Override
-    public void enroll(Long studentId, Long courseId) throws Exception {
+    public boolean enroll(Long studentId, Long courseId) throws Exception {
         Course course = courseService.findCourseById(courseId);
 
         if (enrollRepository.existsEnrollByIdCourseAndIdUser(courseId, studentId)) {
             enrollRepository.deleteByIdCourseAndIdUser(courseId, studentId);
             course.setEnrollStudents(course.getEnrollStudents() - 1);
-        } else {
-            if (course.getEnrollStudents() >= course.getStudentsAmount())
-                throw new Exception("You can not enroll to course");
-            enrollRepository.save(Enroll.builder().idCourse(courseId).idUser(studentId).build());
-            course.setEnrollStudents(course.getEnrollStudents() + 1);
+            courseService.updateCourse(course);
+            return false;
         }
+        if (course.getEnrollStudents() >= course.getStudentsAmount())
+            throw new Exception("You can not enroll to course");
+        enrollRepository.save(Enroll.builder().idCourse(courseId).idUser(studentId).build());
+        course.setEnrollStudents(course.getEnrollStudents() + 1);
 
         courseService.updateCourse(course);
+
+        return true;
 
     }
 }

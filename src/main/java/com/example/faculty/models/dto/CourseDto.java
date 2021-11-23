@@ -1,4 +1,4 @@
-package com.example.faculty.models.requests;
+package com.example.faculty.models.dto;
 
 import lombok.Data;
 

@@ -1,8 +1,8 @@
 package com.example.faculty.services.interfaces;
 
 import com.example.faculty.database.entity.User;
-import com.example.faculty.models.requests.UserCreateDto;
-import com.example.faculty.models.requests.UserDto;
+import com.example.faculty.models.dto.UserCreateDto;
+import com.example.faculty.models.dto.UserDto;
 import com.example.faculty.util.paging.Paged;
 import javassist.NotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;

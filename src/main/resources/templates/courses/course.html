@@ -25,7 +25,7 @@
             </th:block>
 
             <th:block th:if="${condition == 'edit'}">
-                <div th:replace="fragments/edit-course.html :: edit-course"></div>
+                <div th:replace="fragments/edit-course.html :: edit-course(${course})"></div>
             </th:block>
         </div>
     </div>

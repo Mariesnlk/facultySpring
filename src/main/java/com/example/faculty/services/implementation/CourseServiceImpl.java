@@ -8,7 +8,7 @@ import com.example.faculty.database.repository.CourseRepository;
 import com.example.faculty.database.repository.GradeBookRepository;
 import com.example.faculty.exception.BadRequestException;
 import com.example.faculty.models.enums.CourseStatus;
-import com.example.faculty.models.requests.CourseDto;
+import com.example.faculty.models.dto.CourseDto;
 import com.example.faculty.services.interfaces.CourseService;
 import com.example.faculty.services.interfaces.TopicService;
 import com.example.faculty.services.interfaces.UserService;

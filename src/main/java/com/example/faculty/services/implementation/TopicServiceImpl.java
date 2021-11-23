@@ -69,9 +69,6 @@ public class TopicServiceImpl implements TopicService {
 
     // TODO: 16.11.2021 can be also found by topic name
     private Page<Topic> setTopics(Pageable pageable) {
-//        if (name.isEmpty())
-//            return findAllTopics(pageable);
-//        return findStudentsByPIB(name, pageable);
         return topicRepository.findAllByOrderByCreatedDateDesc(pageable);
     }
 

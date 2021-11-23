@@ -3,7 +3,7 @@ package com.example.faculty.controller;
 import com.example.faculty.database.entity.ConfirmationToken;
 import com.example.faculty.database.entity.User;
 import com.example.faculty.database.repository.ConfirmationTokenRepository;
-import com.example.faculty.models.requests.UserDto;
+import com.example.faculty.models.dto.UserDto;
 import com.example.faculty.services.implementation.EmailSenderService;
 import com.example.faculty.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +55,6 @@ public class RegistrationController {
         User existingUser = userService.findByEmail(userDto.getEmail());
         if (existingUser != null) {
             modelAndView.addObject("message", "This email already exists!");
-//            modelAndView.setViewName("error");
         } else {
 
             ConfirmationToken confirmationToken = new ConfirmationToken(userService.saveStudent(userDto));

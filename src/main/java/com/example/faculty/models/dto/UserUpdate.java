@@ -1,4 +1,4 @@
-package com.example.faculty.models.requests;
+package com.example.faculty.models.dto;
 
 import com.example.faculty.util.validator.ValidEmail;
 import lombok.Data;
@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
-public class UserCreateDto {
+public class UserUpdate {
     @NotNull(message = "Field can't be null!")
     @NotEmpty(message = "Field can't be empty!")
     @Pattern(regexp = "[A-Z][a-z][А-Я][а-яєі]*", message = "Not valid first name")
@@ -26,10 +26,9 @@ public class UserCreateDto {
     private String lastName;
 
     @ValidEmail
-    @NotNull
-    @NotEmpty
-    @Email
+    @NotNull(message = "Field can't be null!")
+    @NotEmpty(message = "Field can't be empty!")
+    @Email(message = "Not valid email")
     private String email;
-
 
 }

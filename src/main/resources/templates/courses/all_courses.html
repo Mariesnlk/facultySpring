@@ -85,7 +85,6 @@
                                 th:value="${t.getId()}"
                         />
                     </select>
-                    <!--                     th:selected="(${topic}==${t.getName()})"-->
                 </div>
             </div>
 
@@ -158,7 +157,7 @@
                     <td th:text="${course.getStatus()}"/>
                     <th:block th:if="${user.getUserRoleName() == 'ADMINISTRATOR'}">
                         <td th:text="${course.getEnrollStudents()}"/>
-                        <td class="edit-delete"><a th:href="@{/courses/edit/{id}(id=${course.id})}">Edit</a></td>
+                        <td class="edit-delete"><a th:href="@{/courses/update/{id}(id=${course.id})}">Edit</a></td>
                         <td class="edit-delete"><a th:href="@{/courses/delete/{id}(id=${course.id})}">Delete</a></td>
                     </th:block>
                     <th:block th:if="${user.getUserRoleName() == 'STUDENT'}">

@@ -4,7 +4,7 @@ package com.example.faculty.services.interfaces;
 import com.example.faculty.database.entity.Course;
 import com.example.faculty.database.entity.Topic;
 import com.example.faculty.database.entity.User;
-import com.example.faculty.models.requests.CourseDto;
+import com.example.faculty.models.dto.CourseDto;
 import com.example.faculty.util.paging.Paged;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
