@@ -1,8 +1,9 @@
 package com.example.faculty.database.entity;
 
-import com.example.faculty.models.enums.CourseStatus;
-import lombok.*;
-import org.jetbrains.annotations.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.validation.annotation.Validated;
 
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Validated
 @Table(name = "course")
-public class Course  {
+public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

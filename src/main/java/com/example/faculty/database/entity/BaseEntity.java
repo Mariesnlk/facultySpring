@@ -17,5 +17,5 @@ public class BaseEntity {
 
     @CreatedDate
     @Column(name = "created_date")
-    private LocalDate createdDate = LocalDate.now();//.getTime();
+    private final LocalDate createdDate = LocalDate.now();//.getTime();
 }

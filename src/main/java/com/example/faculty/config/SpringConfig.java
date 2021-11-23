@@ -18,7 +18,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 @ComponentScan("com.example.faculty")
 @EnableWebMvc
 @PropertySource("classpath:application.properties")
-public class SpringConfig implements WebMvcConfigurer{
+public class SpringConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8"/>
@@ -105,7 +105,8 @@
                 <td th:text="${student.getFirstName()} + ' ' + ${student.secondName} + ' ' + ${student.lastName}"
                     class="table-success"></td>
                 <th:block th:if="${course.getStatus() == 'FINISH'}">
-                    <form th:action="@{/course/{courseId}(courseId=${course.id})/student/{studentId}(studentId=${course.teacherId})}" method="post" class="form">
+                    <form th:action="@{/course/{courseId}(courseId=${course.id})/student/{studentId}(studentId=${course.teacherId})}"
+                          method="post" class="form">
                         <div class="form-group">
                             <input type="number" th:value="${student.getMark()}" name="mark" th:min="0" th:max="100">
                         </div>

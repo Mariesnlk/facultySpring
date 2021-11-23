@@ -5,16 +5,16 @@
     height: 80%;
 }
 
-.text-size{
+.text-size {
     font-size: 1.5rem;
 }
 
-label, label.text-3{
+label, label.text-3 {
     font-size: 1.17em;
     color: #19191a;
 }
 
-#class-button{
+#class-button {
     margin-top: 1%;
     text-align: center;
 }

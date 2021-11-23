@@ -1,7 +1,6 @@
 package com.example.faculty.services.implementation;
 
 import com.example.faculty.database.entity.Role;
-import com.example.faculty.database.entity.Topic;
 import com.example.faculty.database.entity.User;
 import com.example.faculty.database.repository.UserRepository;
 import com.example.faculty.models.enums.Roles;
@@ -85,7 +84,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return (UserDetails) userRepository.getUserByEmail(username);
+        return userRepository.getUserByEmail(username);
 
         /*User user = userRepository.getUserByEmail(username);
         return (UserDetails) (user.isRegistered() ? user : null);*/

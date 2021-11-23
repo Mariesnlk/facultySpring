@@ -1,6 +1,5 @@
 package com.example.faculty.config;
 
-import com.example.faculty.models.enums.Roles;
 import com.example.faculty.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

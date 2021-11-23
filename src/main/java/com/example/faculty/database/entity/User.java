@@ -1,6 +1,5 @@
 package com.example.faculty.database.entity;
 
-import com.example.faculty.models.enums.Roles;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;

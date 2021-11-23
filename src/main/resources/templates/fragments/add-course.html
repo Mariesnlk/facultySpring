@@ -28,7 +28,8 @@
             <label for="studentsAmount">Students amount *</label>
             <input class="form-control" aria-label="With textarea" type="number" id="studentsAmount"
                    th:min="10" th:max="60" th:field="*{studentsAmount}" placeholder="amount">
-            <div class="alert alert-warning" th:if="${#fields.hasErrors('studentsAmount')}" th:errors="*{studentsAmount}"></div>
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('studentsAmount')}"
+                 th:errors="*{studentsAmount}"></div>
         </div>
 
         <div class="form-group">

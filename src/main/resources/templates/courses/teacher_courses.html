@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8"/>
@@ -34,7 +34,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="course, iter:${courses.page}">
-<!--                    <th:block th:if="${course.getStatus() == 'FINISH'}">-->
+                    <!--                    <th:block th:if="${course.getStatus() == 'FINISH'}">-->
                     <td><a th:href="@{/courses/course/{id} (id=${course.getId})}" th:text="${course.getName()}"/></td>
                     </td>
                     <td th:text="${course.getTopic().getName()}"/>

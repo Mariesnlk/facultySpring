@@ -27,7 +27,7 @@ public interface CourseService {
                          String teacher, String status, int pageNumber, int size, String sortType);
 
     Paged getStudentCoursesPage(String courseName, Integer duration, Integer studentsAmount, String topic,
-                         String teacher, String courseStatus, Long studentId, int pageNumber, int size, String sortType);
+                                String teacher, String courseStatus, Long studentId, int pageNumber, int size, String sortType);
 
     Page<Course> findAllCourses(Pageable pageable);
 

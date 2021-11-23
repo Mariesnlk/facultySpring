@@ -2,7 +2,6 @@ package com.example.faculty.models.requests;
 
 import com.example.faculty.util.validator.ValidEmail;
 import lombok.Data;
-import net.bytebuddy.utility.RandomString;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;

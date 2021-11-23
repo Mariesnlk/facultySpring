@@ -1,7 +1,5 @@
 package com.example.faculty.models.requests;
 
-import com.example.faculty.database.entity.Topic;
-import com.example.faculty.database.entity.User;
 import lombok.Data;
 
 import javax.validation.constraints.*;

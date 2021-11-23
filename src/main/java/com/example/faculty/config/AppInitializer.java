@@ -7,7 +7,7 @@ public class AppInitializer
         extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] {SecurityConfiguration.class};
+        return new Class[]{SecurityConfiguration.class};
     }
 
     @Override
@@ -16,7 +16,6 @@ public class AppInitializer
     }
 
     @Override
-    protected String[] getServletMappings() {
-        return new String[] {"/"};
+    protected String[] getServletMappings() { return new String[]{"/"};
     }
 }

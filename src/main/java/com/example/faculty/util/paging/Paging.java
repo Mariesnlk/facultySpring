@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Paging {
 
-    static final int PAGINATION_STEP=3;
+    static final int PAGINATION_STEP = 3;
     boolean nextEnabled;
     boolean prevEnabled;
     int pageSize;
@@ -20,9 +20,9 @@ public class Paging {
 
     List<PageItem> items = new ArrayList<>();
 
-    void addPageItems(int from , int to, int pageNumber){
-        for(int i= from ; i < to; i++){
-            items.add(PageItem.builder().active(pageNumber!=i)
+    void addPageItems(int from, int to, int pageNumber) {
+        for (int i = from; i < to; i++) {
+            items.add(PageItem.builder().active(pageNumber != i)
                     .index(i)
                     .pageItemType(PageItemType.PAGE)
                     .build());

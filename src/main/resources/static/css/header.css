@@ -137,7 +137,7 @@
     padding: 25px 0;
 }
 
-.logo h2{
+.logo h2 {
     color: #19191a;
 }
 
@@ -243,6 +243,7 @@
 .menu-item .logo a {
     display: inline-block;
 }
+
 .menu-item .nav-menu .nav-right {
     display: inline-block;
     margin-left: 43px;
