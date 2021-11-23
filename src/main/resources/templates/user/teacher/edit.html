@@ -44,8 +44,8 @@
                                 <label class="text-3">First name:</label>
                             </div>
                             <div class="col-md-6">
-                                <input class="form-control" type="text" th:field="*{firstName}" id="firstName" placeholder="First name">
-                                <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
+                                <input class="form-control" type="text" th:field="*{firstName}" id="firstName" placeholder="First name" required>
+                                <div class="alert alert-warning" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
                             </div>
                         </div>
                         <div class="row">
@@ -53,8 +53,8 @@
                                 <label class="text-3">Second name:</label>
                             </div>
                             <div class="col-md-6">
-                                <input class="form-control" type="text" th:field="*{secondName}" id="secondName" placeholder="Second name">
-                                <span th:if="${#fields.hasErrors('secondName')}" th:errors="*{secondName}"></span>
+                                <input class="form-control" type="text" th:field="*{secondName}" id="secondName" placeholder="Second name" required>
+                                <div class="alert alert-warning" th:if="${#fields.hasErrors('secondName')}" th:errors="*{secondName}"></div>
                             </div>
                         </div>
                         <div class="row ">
@@ -62,8 +62,8 @@
                                 <label class="text-3">Last name:</label>
                             </div>
                             <div class="col-md-6">
-                                <input class="form-control" type="text" th:field="*{lastName}" id="lastName" placeholder="Last name">
-                                <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+                                <input class="form-control" type="text" th:field="*{lastName}" id="lastName" placeholder="Last name" required>
+                                <div class="alert alert-warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
                             </div>
                         </div>
                         <div class="row ">
@@ -71,8 +71,8 @@
                                 <label class="text-3">Email:</label>
                             </div>
                             <div class="col-md-6">
-                                <input class="form-control" type="text" th:field="*{email}" id="email" placeholder="Email">
-                                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                                <input class="form-control" type="text" th:field="*{email}" id="email" placeholder="Email" required>
+                                <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                             </div>
                         </div>
                         <div class="row ">

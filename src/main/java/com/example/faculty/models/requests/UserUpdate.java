@@ -10,25 +10,25 @@ import javax.validation.constraints.Pattern;
 
 @Data
 public class UserUpdate {
-    @NotNull
-    @NotEmpty
-    @Pattern(regexp = "[A-Z][a-z]*", message = "Not valid first name")
+    @NotNull(message = "Field can't be null!")
+    @NotEmpty(message = "Field can't be empty!")
+    @Pattern(regexp = "[A-Z][a-z][А-Я][а-яєі]*", message = "Not valid first name")
     private String firstName;
 
-    @NotNull
-    @NotEmpty
-    @Pattern(regexp = "[A-Z][a-z]*", message = "Not valid second name")
+    @NotNull(message = "Field can't be null!")
+    @NotEmpty(message = "Field can't be empty!")
+    @Pattern(regexp = "[A-Z][a-z][А-Я][а-яєі]*", message = "Not valid second name")
     private String secondName;
 
-    @NotNull
-    @NotEmpty
-    @Pattern(regexp = "[A-Z][a-z]*", message = "Not valid last name")
+    @NotNull(message = "Field can't be null!")
+    @NotEmpty(message = "Field can't be empty!")
+    @Pattern(regexp = "[A-Z][a-z][А-Я][а-яєі]*", message = "Not valid last name")
     private String lastName;
 
     @ValidEmail
-    @NotNull
-    @NotEmpty
-    @Email
+    @NotNull(message = "Field can't be null!")
+    @NotEmpty(message = "Field can't be empty!")
+    @Email(message = "Not valid email")
     private String email;
 
 }

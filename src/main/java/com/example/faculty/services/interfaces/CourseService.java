@@ -2,7 +2,8 @@ package com.example.faculty.services.interfaces;
 
 
 import com.example.faculty.database.entity.Course;
-import com.example.faculty.models.enums.CourseStatus;
+import com.example.faculty.database.entity.Topic;
+import com.example.faculty.database.entity.User;
 import com.example.faculty.models.requests.CourseDto;
 import com.example.faculty.util.paging.Paged;
 import org.springframework.data.domain.Page;
@@ -20,17 +21,17 @@ public interface CourseService {
 
     Course findCourseById(Long courseId);
 
-    void changeCourseStatus(Long courseId, String status);
-
     void deleteCourse(Long courseId);
 
     Paged getCoursesPage(String courseName, Integer duration, Integer studentsAmount, String topic,
-                         String teacher, int pageNumber, int size, String sortType);
+                         String teacher, String status, int pageNumber, int size, String sortType);
 
-    Paged getCoursesPage(String courseName, Integer duration, Integer studentsAmount, String topic,
-                         String teacher, String courseStatus, int pageNumber, int size, String sortType);
+    Paged getStudentCoursesPage(String courseName, Integer duration, Integer studentsAmount, String topic,
+                         String teacher, String courseStatus, Long studentId, int pageNumber, int size, String sortType);
 
     Page<Course> findAllCourses(Pageable pageable);
+
+    Page<Course> findAllStudentCourses(Long studentId, Pageable pageable);
 
     List<String> findAllCourseNames();
 
@@ -40,10 +41,12 @@ public interface CourseService {
 
     List<String> findCourseNameByName(String name);
 
-    List<String> findAllTopics();
+    List<Topic> findAllTopics();
 
-    List<Integer> findAllTeacherNames();
+    List<User> findAllTeacherNames();
 
-    List<Integer> findTeacherIdByName(String name);
+    List<User> findTeacherIdByName(String name);
+
+    Paged findAllCoursesByTeacher(User teacherId, int pageNumber, int size);
 
 }

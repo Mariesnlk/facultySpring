@@ -98,7 +98,7 @@ public class PasswordForgotController {
         model.addAttribute("title", "Reset your password");
 
         String token = request.getParameter("token");
-        if(token.isEmpty()){
+        if (token.isEmpty()) {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             userService.updatePassword(user, password);
             model.addAttribute("message", "You have successfully changed your password.");

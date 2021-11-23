@@ -11,7 +11,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -48,35 +47,35 @@ public class RegistrationController {
     }
 
     @PostMapping(value = "/registration")
-    public ModelAndView registerUser(ModelAndView modelAndView, @Valid @Validated UserDto userDto,
-                                     BindingResult result) {
-//        if (result.hasErrors()) {
-//            modelAndView.setViewName("registration");
-//        } else {
-            User existingUser = userService.findByEmail(userDto.getEmail());
-            if (existingUser != null) {
-                modelAndView.addObject("message", "This email already exists!");
-                modelAndView.setViewName("error");
-            } else {
+    public ModelAndView registerUser( @Valid UserDto userDto,
+                                     BindingResult result, ModelAndView modelAndView) {
+        if (result.hasErrors()) {
+            modelAndView.setViewName("registration");
+        } else {
+        User existingUser = userService.findByEmail(userDto.getEmail());
+        if (existingUser != null) {
+            modelAndView.addObject("message", "This email already exists!");
+//            modelAndView.setViewName("error");
+        } else {
 
-                ConfirmationToken confirmationToken = new ConfirmationToken(userService.saveStudent(userDto));
+            ConfirmationToken confirmationToken = new ConfirmationToken(userService.saveStudent(userDto));
 
-                confirmationTokenRepository.save(confirmationToken);
+            confirmationTokenRepository.save(confirmationToken);
 
-                SimpleMailMessage mailMessage = new SimpleMailMessage();
-                mailMessage.setTo(userDto.getEmail());
-                mailMessage.setSubject("Complete Registration!");
-                mailMessage.setFrom("test.email.mariia@gmail.com");
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setTo(userDto.getEmail());
+            mailMessage.setSubject("Complete Registration!");
+            mailMessage.setFrom("test.email.mariia@gmail.com");
 
-                mailMessage.setText("To confirm your account, please click here : "
-                        + "http://localhost:8080/confirm-account?token=" + confirmationToken.getConfirmationTokenName());
+            mailMessage.setText("To confirm your account, please click here : "
+                    + "http://localhost:8080/confirm-account?token=" + confirmationToken.getConfirmationTokenName());
 
-                emailSenderService.sendEmail(mailMessage);
+            emailSenderService.sendEmail(mailMessage);
 
-                modelAndView.addObject("email", userDto.getEmail());
+            modelAndView.addObject("email", userDto.getEmail());
 
-                modelAndView.setViewName("successfulRegistration");
-//            }
+            modelAndView.setViewName("successfulRegistration");
+            }
         }
 
         return modelAndView;

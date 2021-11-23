@@ -21,7 +21,7 @@
         <div class="col-md-6 col-md-offset-3">
 
             <th:block th:if="${condition == 'create'}">
-                <div th:replace="fragments/add-course.html :: add-course"></div>
+                <div th:replace="fragments/add-course.html :: add-course(${topics})"></div>
             </th:block>
 
             <th:block th:if="${condition == 'edit'}">

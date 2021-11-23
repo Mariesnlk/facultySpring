@@ -47,10 +47,13 @@ public class StudentController {
         return "/user/student/edit";
     }
 
-    // TODO: 17.11.2021 not working updated teacher? but it store in db need to login one more time
     @PostMapping("/student/update")
     public String updateStudent(@Valid UserUpdate userUpdate, BindingResult result, Model model) {
         User student = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (result.hasErrors()) {
+            return "/user/student/edit";
+        }
 
         User updatedUser = User.builder()
                 .id(student.getId())
@@ -63,9 +66,6 @@ public class StudentController {
                 .userRoleName(student.getUserRoleName())
                 .build();
 
-//        if (result.hasErrors()) {
-//            return "redirect:/student/edit";
-//        }
         userService.updateUser(updatedUser);
         return "redirect:/student";
     }

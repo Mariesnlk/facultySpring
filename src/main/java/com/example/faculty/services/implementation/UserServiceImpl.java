@@ -5,6 +5,7 @@ import com.example.faculty.database.entity.Topic;
 import com.example.faculty.database.entity.User;
 import com.example.faculty.database.repository.UserRepository;
 import com.example.faculty.models.enums.Roles;
+import com.example.faculty.models.requests.StudentMarkDto;
 import com.example.faculty.models.requests.UserCreateDto;
 import com.example.faculty.models.requests.UserDto;
 import com.example.faculty.services.interfaces.UserService;
@@ -169,6 +170,13 @@ public class UserServiceImpl implements UserService {
                 .roles(setTeacherRole())
                 .userRoleName(Roles.TEACHER.name())
                 .build());
+    }
+
+    @Override
+    public Paged findAllStudentsByIdCourse(Long courseId, int pageNumber, int size) {
+        PageRequest request = PageRequest.of(pageNumber - 1, size);
+        Page<StudentMarkDto> postPage = userRepository.findAllStudentsByIdCourse(courseId, request);
+        return new Paged<>(postPage, Paging.of(postPage.getTotalPages(), pageNumber, size));
     }
 
     private Set<Role> setTeacherRole() {

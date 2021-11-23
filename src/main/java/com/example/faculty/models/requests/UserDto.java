@@ -7,34 +7,35 @@ import javax.validation.constraints.*;
 
 @Data
 public class UserDto {
-    @NotNull
-    @NotEmpty
-    @Pattern(regexp = "[A-Z][a-z]*", message = "Not valid first name")
+    @NotNull(message = "Field can't be null!")
+    @NotEmpty(message = "Field can't be empty!")
+    @Pattern(regexp = "[A-Z][a-z][А-Я][а-яєі]*", message = "Not valid first name")
     private String firstName;
 
-    @NotNull
-    @NotEmpty
-    @Pattern(regexp = "[A-Z][a-z]*", message = "Not valid second name")
+    @NotNull(message = "Field can't be null!")
+    @NotEmpty(message = "Field can't be empty!")
+    @Pattern(regexp = "[A-Z][a-z][А-Я][а-яєі]*", message = "Not valid second name")
     private String secondName;
 
-    @NotNull
-    @NotEmpty
-    @Pattern(regexp = "[A-Z][a-z]*", message = "Not valid last name")
+    @NotNull(message = "Field can't be null!")
+    @NotEmpty(message = "Field can't be empty!")
+    @Pattern(regexp = "[A-Z][a-z][А-Я][а-яєі]*", message = "Not valid last name")
     private String lastName;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "Field can't be null!")
+    @NotEmpty(message = "Field can't be empty!")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}", message = "Not valid user password")
     private String password;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "Field can't be null!")
+    @NotEmpty(message = "Field can't be empty!")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}", message = "Not valid user password")
     private String confirmPassword;
 
     @ValidEmail
-    @NotNull
-    @NotEmpty
-    @Email
+    @NotNull(message = "Field can't be null!")
+    @NotEmpty(message = "Field can't be empty!")
+    @Email(message = "Not valid email")
     private String email;
 
     @AssertTrue

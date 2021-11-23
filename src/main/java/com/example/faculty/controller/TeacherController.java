@@ -42,6 +42,10 @@ public class TeacherController {
     public String updateTeacher(@Valid UserUpdate userUpdate, BindingResult result, Model model) {
         User teacher = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        if (result.hasErrors()) {
+            return "/user/teacher/edit";
+        }
+
         User updatedUser = User.builder()
                 .id(teacher.getId())
                 .firstName(userUpdate.getFirstName())
@@ -53,9 +57,6 @@ public class TeacherController {
                 .userRoleName(teacher.getUserRoleName())
                 .build();
 
-//        if (result.hasErrors()) {
-//            return "redirect:/student/edit";
-//        }
         userService.updateUser(updatedUser);
         return "redirect:/teacher";
     }

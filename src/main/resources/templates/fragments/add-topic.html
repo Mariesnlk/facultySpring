@@ -4,14 +4,11 @@
 <div th:fragment="add-topic">
 
     <h1>Add a new topic</h1>
-    <form action="#" th:action="@{/topic/add}" th:object="${topic}" method="post" class="form">
+    <form th:action="@{/topic/add}" th:object="${topic}" method="post" class="form">
         <div class="form-group">
             <label for="name">Topic name *</label>
-            <input class="form-control" type="text" th:field="*{name}" id="name"
-                   placeholder="Enter topic name">
-            <div th:if="${#fields.hasErrors('name')}">
-                <div class="alert alert-danger">Invalid name.</div>
-            </div>
+            <input class="form-control" type="text" th:field="*{name}" id="name" placeholder="Enter topic name">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-success">Save</button>

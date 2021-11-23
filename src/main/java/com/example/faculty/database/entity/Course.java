@@ -37,7 +37,7 @@ public class Course  {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "duration")
     private Integer duration;
 
     @Column(name = "students_amount")

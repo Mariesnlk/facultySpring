@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Course info</title>
+
+    <link href="/static/css/userPage.css" rel="stylesheet">
+    <link href="/static/css/header.css" rel="stylesheet">
+    <link href="/static/css/table.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+
+</head>
+<body>
+
+<div th:replace="fragments/nav-teacher.html :: nav-teacher"></div>
+
+<div class="container emp-profile">
+
+    <form method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="profile-head">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="text-3">Course Name:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-3" th:text="${course.getName()}"></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="text-3">Topic name:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-3" th:text="${course.getTopic().getName()}"></label>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-md-6">
+                            <label class="text-3">Teacher name:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-3"
+                                   th:text="${course.getTeacherId().getFirstName()} + ' ' + ${course.getTeacherId().getSecondName()} + ' ' + ${course.getTeacherId().getLastName()}"></label>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-md-6">
+                            <label class="text-3">Duration:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-3" th:text="${course.getDuration()}"></label>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-md-6">
+                            <label class="text-3">Students amount:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-3" th:text="${course.getStudentsAmount()}"></label>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-md-6">
+                            <label class="text-3">Enroll students:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-3" th:text="${course.getEnrollStudents()}"></label>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-md-6">
+                            <label class="text-3">Course status:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-3" th:text="${course.getStatus()}"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<div th:switch="${studentsList}" id="table">
+    <div th:case="*">
+        <h2>All Students</h2>
+        <table id="incomes_table" class="table table-bordered">
+            <thead>
+            <tr class="table-success">
+                <th class="table-th">Name</th>
+                <th:block th:if="${course.getStatus() == 'FINISH'}">
+                    <th class="table-th">Mark</th>
+                </th:block>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="student, iter:${studentsList.page}">
+                <td th:text="${student.getFirstName()} + ' ' + ${student.secondName} + ' ' + ${student.lastName}"
+                    class="table-success"></td>
+                <th:block th:if="${course.getStatus() == 'FINISH'}">
+                    <form th:action="@{/course/{courseId}(courseId=${course.id})/student/{studentId}(studentId=${course.teacherId})}" method="post" class="form">
+                        <div class="form-group">
+                            <input type="number" th:value="${student.getMark()}" name="mark" th:min="0" th:max="100">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </th:block>
+            </tr>
+            </tbody>
+        </table>
+
+        <!------ Paging ------->
+        <div class="con-pagination">
+            <nav aria-label="Page navigation" class="paging">
+                <ul class="pagination" th:if="${studentsList.page.totalPages > 1}">
+                    <li class="page-item" th:classappend="${!studentsList.paging.isPrevEnabled()? 'disabled' : ''}">
+                        <a class="page-link"
+                           th:href="@{'/studentsList?pageNumber=' + ${studentsList.paging.pageNumber - 1} + '&name='+${name} }"
+                           tabindex="-1">Previous</a>
+                    </li>
+                    <th:block th:each="item : ${studentsList.paging.getItems()}">
+                        <li class="page-item"
+                            th:classappend="${item.index == studentsList.paging.pageNumber? 'active' : ''}"
+                            th:if="${item.pageItemType.name() == 'PAGE'}">
+                            <a class="page-link"
+                               th:href="@{'/studentsList?pageNumber=' + ${item.index} + '&name='+${name}}"
+                               th:text="${item.index}"></a>
+                        </li>
+                        <li class="page-item disabled" th:if="${item.pageItemType.name() == 'DOTS'}">
+                            <a class="page-link" href="#">...</a>
+                        </li>
+                    </th:block>
+                    <li class="page-item" th:classappend="${!studentsList.paging.isNextEnabled()? 'disabled' : ''}">
+                        <a class="page-link"
+                           th:href="@{'/studentsList?pageNumber=' + ${studentsList.paging.pageNumber + 1} + '&name='+${name}}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!------- Paging ------>
+    </div>
+</div>
+
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

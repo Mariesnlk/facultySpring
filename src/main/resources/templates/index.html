@@ -13,7 +13,7 @@
     <title>Main page</title>
 </head>
 
-<body >
+<body>
 
 <div th:replace="fragments/nav-all.html :: nav-all"></div>
 
@@ -23,9 +23,10 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="hero-text">
-                    <h1>Faculty Site - the best matches for your education</h1>
-                    <p>Find all information about courses and teacher, enroll for courses and review your grades.</p>
-                    <span>New user? <a href="/" th:href="@{/registration}">Register here</a></span>
+                    <h1 th:text="#{main_info.h1}">Faculty Site - the best matches for your education</h1>
+                    <p th:text="#{main_info.p}">Find all information about courses and teacher, enroll for courses and
+                        review your grades.</p>
+                    <span th:text="#{new_user}">New user?</span> <span><a href="/" th:href="@{/registration}" th:text="#{register_here}">Register here</a></span>
                 </div>
             </div>
         </div>

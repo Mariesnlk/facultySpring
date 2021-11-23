@@ -9,18 +9,17 @@ import com.example.faculty.services.implementation.EmailSenderService;
 import com.example.faculty.services.interfaces.CourseService;
 import com.example.faculty.services.interfaces.TopicService;
 import com.example.faculty.services.interfaces.UserService;
+import com.example.faculty.util.handlerExcaption.ErrorView;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -56,8 +55,12 @@ public class AdministratorController {
     }
 
     @PostMapping("/admin/update")
-    public String updateAdmin(@Valid UserUpdate userUpdate, BindingResult result, Model model) {
+    public String updateAdmin(@Valid UserUpdate userUpdate, BindingResult result) {
         User admin = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (result.hasErrors()) {
+            return "/user/admin/edit";
+        }
 
         User updatedUser = User.builder()
                 .id(admin.getId())
@@ -69,10 +72,6 @@ public class AdministratorController {
                 .roles(admin.getRoles())
                 .userRoleName(admin.getUserRoleName())
                 .build();
-
-//        if (result.hasErrors()) {
-//            return "redirect:/student/edit";
-//        }
         userService.updateUser(updatedUser);
         return "redirect:/admin";
     }
@@ -84,7 +83,7 @@ public class AdministratorController {
     }
 
     @GetMapping("/topic/add")
-    public ModelAndView addTopic(ModelAndView modelAndView, Model model, TopicDto topic) {
+    public ModelAndView addTopic(ModelAndView modelAndView, TopicDto topic) {
         modelAndView.addObject("topic", topic);
         modelAndView.addObject("condition", "add");
         modelAndView.setViewName("/topic/topic");
@@ -92,13 +91,17 @@ public class AdministratorController {
     }
 
     @PostMapping("/topic/add")
-    public String addTopic(@Valid @Validated TopicDto topic, BindingResult result, Model model) {
+    public String addTopic(@Valid @ModelAttribute("topic") TopicDto topic, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("condition", "add");
+            return "/topic/topic";
+        }
         topicService.createTopic(topic.getName());
         return "redirect:/topics";
     }
 
     @GetMapping("/topic/update/{id}")
-    public String showUpdateTopicForm(@PathVariable("id") long id, ModelAndView modelAndView, Model model) {
+    public String showUpdateTopicForm(@PathVariable("id") long id, Model model) {
         Topic topic = topicService.findTopicById(id);
         model.addAttribute("topic", topic);
         model.addAttribute("condition", "edit");
@@ -106,13 +109,16 @@ public class AdministratorController {
     }
 
     @PostMapping("/topic/update/{id}")
-    public String updateTopic(@PathVariable("id") long id, @Valid TopicDto topicDto, Model model) {
+    public String updateTopic(@PathVariable("id") long id, @Valid TopicDto topicDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return "/topic/topic";
+        }
         Topic topic = topicService.updateTopic(id, topicDto.getName());
         return "redirect:/topics";
     }
 
     @GetMapping("/topic/delete/{id}")
-    public String deleteTopic(@PathVariable("id") long id, Model model) {
+    public String deleteTopic(@PathVariable("id") long id) {
         topicService.deleteTopic(id);
         return "redirect:/topics";
     }
@@ -150,14 +156,18 @@ public class AdministratorController {
     }
 
     @GetMapping("/teacher/create")
-    public ModelAndView addTeacherForm(ModelAndView modelAndView, Model model, UserCreateDto userCreate) {
+    public ModelAndView addTeacherForm(ModelAndView modelAndView, UserCreateDto userCreate) {
         modelAndView.addObject("teacher", userCreate);
         modelAndView.setViewName("/user/teacher/create");
         return modelAndView;
     }
 
     @PostMapping("/teacher/add")
-    public String addTeacher(@Valid UserCreateDto userCreate, BindingResult result, Model model) {
+    public String addTeacher(@Valid UserCreateDto userCreate, BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "/user/teacher/create";
+        }
 
         String password = RandomString.make(30);
         userService.createTeacher(userCreate, password);

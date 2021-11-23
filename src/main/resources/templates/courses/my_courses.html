@@ -15,12 +15,8 @@
 </head>
 <body>
 
-<th:block th:if="${user.getUserRoleName() == 'ADMINISTRATOR'}">
-    <div th:replace="fragments/nav-admin.html :: nav-admin"></div>
-</th:block>
-<th:block th:if="${user.getUserRoleName() == 'STUDENT'}">
-    <div th:replace="fragments/nav-student.html :: nav-student"></div>
-</th:block>
+<div th:replace="fragments/nav-student.html :: nav-student"></div>
+
 
 <div class="container p-3">
     <form action="/courses" method="get">
@@ -82,10 +78,9 @@
                         <option
                                 th:each="t:${topicList}"
                                 th:text="${t.getName()}"
-                                th:value="${t.getId()}"
+                                th:selected="(${topic}==${t.getName()})"
                         />
                     </select>
-<!--                     th:selected="(${topic}==${t.getName()})"-->
                 </div>
             </div>
 
@@ -99,20 +94,22 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-2">
-                    <span class="input-group-text">Course status</span>
+            <th:block th:if="${user.getUserRoleName() == 'STUDENT'}">
+                <div class="row">
+                    <div class="col-md-2">
+                        <span class="input-group-text">Course status</span>
+                    </div>
+                    <div class="col-md-4">
+                        <select th:name="status" class="custom-select form-control" id="status">
+                            <option th:value="..." th:text="..." th:selected="(${status}=='...')">...</option>
+                            <option
+                                    th:each="s:${statusList}"
+                                    th:value="${s}"
+                                    th:text="${s}"/>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <select th:name="status" class="custom-select form-control" id="status">
-                        <option th:value="..." th:text="..." th:selected="(${status}=='...')">...</option>
-                        <option
-                                th:each="s:${statusList}"
-                                th:value="${s}"
-                                th:text="${s}"/>
-                    </select>
-                </div>
-            </div>
+            </th:block>
 
         </div>
 
@@ -126,7 +123,7 @@
         </div>
     </form>
 
-    <div th:switch="${courses}" id="table">
+    <div th:switch="${topics}" id="table">
         <div th:case="*">
             <h2>Courses</h2>
             <table id="incomes_table" class="table table-bordered">
@@ -138,9 +135,7 @@
                     <th class="table-th">Duration</th>
                     <th class="table-th">Students amount</th>
                     <th class="table-th">Status</th>
-                    <th:block th:if="${user.getUserRoleName() == 'ADMINISTRATOR'}">
-                        <th class="table-th">Enroll students</th>
-                    </th:block>
+                    <th class="table-th">Mark</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -156,15 +151,7 @@
                     <td th:text="${course.getDuration()}"/>
                     <td th:text="${course.getStudentsAmount()}"/>
                     <td th:text="${course.getStatus()}"/>
-                    <th:block th:if="${user.getUserRoleName() == 'ADMINISTRATOR'}">
-                        <td th:text="${course.getEnrollStudents()}"/>
-                        <td class="edit-delete"><a th:href="@{/courses/edit/{id}(id=${course.id})}">Edit</a></td>
-                        <td class="edit-delete"><a th:href="@{/courses/delete/{id}(id=${course.id})}">Delete</a></td>
-                    </th:block>
-                    <th:block th:if="${user.getUserRoleName() == 'STUDENT'}">
-                        <td class="edit-delete"><a
-                                th:href="@{/enroll/course/{courseId}(courseId=${course.id})}">Enroll</a></td>
-                    </th:block>
+                    <td/>
                 </tr>
                 </tbody>
             </table>
@@ -200,11 +187,6 @@
             <!------- Paging ------>
 
         </div>
-        <th:block th:if="${user.getUserRoleName() == 'ADMINISTRATOR'}">
-            <div class="container">
-                <p><a id="add-new" href="/courses/create">Add a new course</a></p>
-            </div>
-        </th:block>
     </div>
 </div>
 

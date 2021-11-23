@@ -5,6 +5,9 @@ import com.example.faculty.models.requests.UserCreateDto;
 import com.example.faculty.models.requests.UserDto;
 import com.example.faculty.util.paging.Paged;
 import javassist.NotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -37,4 +40,6 @@ public interface UserService extends UserDetailsService {
     List<User> allTeachers();
 
     User createTeacher(UserCreateDto userCreateDto, String password);
+
+    Paged findAllStudentsByIdCourse(Long courseId, int pageNumber, int size);
 }
