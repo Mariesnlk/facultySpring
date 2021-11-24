@@ -47,6 +47,7 @@ public class StudentController {
         User student = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (result.hasErrors()) {
+            model.addAttribute("user", student);
             return "/user/student/edit";
         }
 

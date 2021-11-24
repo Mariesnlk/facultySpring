@@ -10,6 +10,6 @@ import javax.validation.constraints.Pattern;
 public class TopicDto {
     @NotNull(message = "Field can't be null!")
     @NotEmpty(message = "Field can't be empty!")
-    @Pattern(regexp = "[A-Z][a-z][А-Я][а-яєі]*", message = "Not valid name")
+    @Pattern(regexp = "[A-Za-zА-Яа-яєі]*", message = "Not valid name")
     private String name;
 }

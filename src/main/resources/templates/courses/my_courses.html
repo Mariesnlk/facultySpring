@@ -19,7 +19,7 @@
 
 
 <div class="container p-3">
-    <form action="/courses" method="get">
+    <form action="/my_courses" method="get">
         <div class="container">
             <div class="row">
                 <div class="col-md-2">
@@ -78,7 +78,7 @@
                         <option
                                 th:each="t:${topicList}"
                                 th:text="${t.getName()}"
-                                th:selected="(${topic}==${t.getName()})"
+                                th:value="${t.getId()}"
                         />
                     </select>
                 </div>
@@ -145,13 +145,14 @@
                     </td>
                     <td th:text="${course.getTopic().getName()}"/>
                     </td>
-                    <td th:if="${course.getTeacherId() != null}"
-                        th:text="${course.getTeacherId().getLastName()} + ' ' + ${course.getTeacherId().getFirstName().charAt(0)} + '.' + ${course.getTeacherId().getSecondName().charAt(0)} + '.' "/>
-                    <td th:if="${course.getTeacherId() == null}" th:text="#{courses.without_teacher}"/>
+                    <td th:if="${course.getTeacher() != null}"
+                        th:text="${course.getTeacher().getLastName()} + ' ' + ${course.getTeacher().getFirstName().charAt(0)} + '.' + ${course.getTeacher().getSecondName().charAt(0)} + '.' "/>
+                    <td th:if="${course.getTeacher() == null}" th:text="#{courses.without_teacher}"/>
                     <td th:text="${course.getDuration()}"/>
                     <td th:text="${course.getStudentsAmount()}"/>
                     <td th:text="${course.getStatus()}"/>
-                    <td/>
+                    <td th:if="${course.getMark() != null}" th:text="${course.getMark()}"/>
+
                 </tr>
                 </tbody>
             </table>

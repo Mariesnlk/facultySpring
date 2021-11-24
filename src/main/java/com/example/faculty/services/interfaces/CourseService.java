@@ -5,6 +5,7 @@ import com.example.faculty.database.entity.Course;
 import com.example.faculty.database.entity.Topic;
 import com.example.faculty.database.entity.User;
 import com.example.faculty.models.dto.CourseDto;
+import com.example.faculty.models.dto.CoursesWithMyMarkDto;
 import com.example.faculty.util.paging.Paged;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,7 @@ public interface CourseService {
 
     Page<Course> findAllCourses(Pageable pageable);
 
-    Page<Course> findAllStudentCourses(Long studentId, Pageable pageable);
+    Page<CoursesWithMyMarkDto> findAllStudentCourses(Long studentId, Pageable pageable);
 
     List<String> findAllCourseNames();
 

@@ -12,17 +12,17 @@ import javax.validation.constraints.Pattern;
 public class UserCreateDto {
     @NotNull(message = "Field can't be null!")
     @NotEmpty(message = "Field can't be empty!")
-    @Pattern(regexp = "[A-Z][a-z][А-Я][а-яєі]*", message = "Not valid first name")
+    @Pattern(regexp = "[A-Za-zА-Яа-яєі]*", message = "Not valid first name")
     private String firstName;
 
     @NotNull(message = "Field can't be null!")
     @NotEmpty(message = "Field can't be empty!")
-    @Pattern(regexp = "[A-Z][a-z][А-Я][а-яєі]*", message = "Not valid second name")
+    @Pattern(regexp = "[A-Za-zА-Яа-яєі]*", message = "Not valid second name")
     private String secondName;
 
     @NotNull(message = "Field can't be null!")
     @NotEmpty(message = "Field can't be empty!")
-    @Pattern(regexp = "[A-Z][a-z][А-Я][а-яєі]*", message = "Not valid last name")
+    @Pattern(regexp = "[A-Za-zА-Яа-яєі]*", message = "Not valid last name")
     private String lastName;
 
     @ValidEmail

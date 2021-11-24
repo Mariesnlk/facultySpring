@@ -3,6 +3,7 @@ package com.example.faculty.database.repository;
 import com.example.faculty.database.entity.Course;
 import com.example.faculty.database.entity.Topic;
 import com.example.faculty.database.entity.User;
+import com.example.faculty.models.dto.CoursesWithMyMarkDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -33,27 +34,33 @@ public interface CoursePagingRepository extends PagingAndSortingRepository<Cours
                                                                                                  List<String> status, List<User> teacherId,
                                                                                                  Pageable pageable);
 
-    @Query("select c from Course c " +
+    @Query("select new com.example.faculty.models.dto.CoursesWithMyMarkDto(c.name, c.duration, c.studentsAmount, c.topic, c.teacherId, c.status, g.mark)  " +
+            "from Course c " +
             "inner join Enroll e " +
             "on c.id = e.idCourse " +
+            "left join GradeBook g " +
+            "on g.idCourse = c.id " +
             "where e.idUser=:userId and " +
             "c.name in (:courseName) and " +
             "c.duration in (:duration) and " +
             "c.studentsAmount in (:studentsAmount) and " +
-            "c.topic.name in (:topic) and " +
+            "c.topic in (:topic) and " +
             "c.teacherId in (:teacherId) and " +
             "c.status in (:status) ")
-    Page<Course> findAllCoursesByNewParamsAndStudent(@Param("courseName") List<String> courseName, @Param("duration") List<Integer> duration,
+    Page<CoursesWithMyMarkDto> findAllCoursesByNewParamsAndStudent(@Param("courseName") List<String> courseName, @Param("duration") List<Integer> duration,
                                                      @Param("studentsAmount") List<Integer> studentsAmount, @Param("topic") List<Topic> topic,
                                                      @Param("teacherId") List<User> teacherId, @Param("status") List<String> status,
                                                      @Param("userId") Long userId, Pageable pageable);
 
 
-    @Query("select c from Course c " +
+    @Query("select new com.example.faculty.models.dto.CoursesWithMyMarkDto(c.name, c.duration, c.studentsAmount, c.topic, c.teacherId, c.status, g.mark) " +
+            "from Course c " +
             "inner join Enroll e " +
             "on c.id = e.idCourse " +
+            "left join GradeBook g " +
+            "on g.idCourse = c.id " +
             "where e.idUser=:userId")
-    Page<Course> findAllCoursesByStudent(@Param("userId") Long userId, Pageable pageable);
+    Page<CoursesWithMyMarkDto> findAllCoursesByStudent(@Param("userId") Long userId, Pageable pageable);
 
     @Query("select c from Course c where c.teacherId.id is null")
     List<Course> findCoursesWithoutTeacher();

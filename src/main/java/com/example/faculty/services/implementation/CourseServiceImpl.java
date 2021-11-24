@@ -7,6 +7,7 @@ import com.example.faculty.database.repository.CoursePagingRepository;
 import com.example.faculty.database.repository.CourseRepository;
 import com.example.faculty.database.repository.GradeBookRepository;
 import com.example.faculty.exception.BadRequestException;
+import com.example.faculty.models.dto.CoursesWithMyMarkDto;
 import com.example.faculty.models.enums.CourseStatus;
 import com.example.faculty.models.dto.CourseDto;
 import com.example.faculty.services.interfaces.CourseService;
@@ -103,7 +104,7 @@ public class CourseServiceImpl implements CourseService {
     public Paged getStudentCoursesPage(String courseName, Integer duration, Integer studentsAmount, String topic, String teacher,
                                        String courseStatus, Long studentId, int pageNumber, int size, String sortType) {
         Pageable request = PageRequest.of(pageNumber - 1, size, setSort(sortType));
-        Page<Course> postPage = setStudentCourses(courseName, duration, studentsAmount, topic, teacher, studentId, courseStatus, request);
+        Page<CoursesWithMyMarkDto> postPage = setStudentCourses(courseName, duration, studentsAmount, topic, teacher, studentId, courseStatus, request);
         return new Paged<>(postPage, Paging.of(postPage.getTotalPages(), pageNumber, size));
     }
 
@@ -123,8 +124,8 @@ public class CourseServiceImpl implements CourseService {
                 setTopicsParam(topic), setCourseStatusParam(status), setTeacherNameParam(teacher), pageable);
     }
 
-    private Page<Course> setStudentCourses(String courseName, Integer duration, Integer studentsAmount, String topic,
-                                           String teacher, Long studentId, String status, Pageable pageable) {
+    private Page<CoursesWithMyMarkDto> setStudentCourses(String courseName, Integer duration, Integer studentsAmount, String topic,
+                                                         String teacher, Long studentId, String status, Pageable pageable) {
 
         if (courseName.isEmpty() && duration == 0 && studentsAmount == 0
                 && topic.equals("...") && status.equals("...") && teacher.isEmpty()) {
@@ -141,7 +142,7 @@ public class CourseServiceImpl implements CourseService {
         return coursePagingRepository.findByNameInAndDurationInAndStudentsAmountInAndTopicInAndStatusInAndTeacherIdIn(courseName, duration, studentsAmount, topic, status, teacherId, pageable);
     }
 
-    public Page<Course> findAllCoursesByParamsAndStudentId(List<String> courseName, List<Integer> duration,
+    public Page<CoursesWithMyMarkDto> findAllCoursesByParamsAndStudentId(List<String> courseName, List<Integer> duration,
                                                            List<Integer> studentsAmount, List<Topic> topic,
                                                            List<User> teacherId, List<String> statuses,
                                                            Long studentId, Pageable pageable) {
@@ -181,7 +182,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Page<Course> findAllStudentCourses(Long studentId, Pageable pageable) {
+    public Page<CoursesWithMyMarkDto> findAllStudentCourses(Long studentId, Pageable pageable) {
         return coursePagingRepository.findAllCoursesByStudent(studentId, pageable);
     }
 

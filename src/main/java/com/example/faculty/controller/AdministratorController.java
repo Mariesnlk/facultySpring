@@ -52,10 +52,11 @@ public class AdministratorController {
     }
 
     @PostMapping("/admin/update")
-    public String updateAdmin(@Valid UserUpdate userUpdate, BindingResult result) {
+    public String updateAdmin(@Valid UserUpdate userUpdate, BindingResult result, Model model) {
         User admin = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (result.hasErrors()) {
+            model.addAttribute("user", admin);
             return "/user/admin/edit";
         }
 

@@ -27,40 +27,40 @@
             <form th:action="@{/registration}" th:object="${userDto}" method="post" class="form">
 
                 <div class="form-group">
-                    <label for="firstName">First name *</label>
+                    <label for="firstName" th:text="#{first_name}">First name *</label>
                     <input class="form-control" type="text" th:field="*{firstName}" id="firstName"
                            placeholder="Enter first name">
                     <div class="alert alert-warning" th:if="${#fields.hasErrors('firstName')}"
                          th:errors="*{firstName}"></div>
                 </div>
                 <div class="form-group">
-                    <label for="secondName">Second name *</label>
+                    <label for="secondName" th:text="#{second_name}">Second name *</label>
                     <input class="form-control" type="text" th:field="*{secondName}" id="secondName"
                            placeholder="Enter second name">
                     <div class="alert alert-warning" th:if="${#fields.hasErrors('secondName')}"
                          th:errors="*{secondName}"></div>
                 </div>
                 <div class="form-group">
-                    <label for="lastName">Last name *</label>
+                    <label for="lastName" th:text="#{last_name}">Last name *</label>
                     <input class="form-control" type="text" th:field="*{lastName}" id="lastName"
                            placeholder="Enter last name">
                     <div class="alert alert-warning" th:if="${#fields.hasErrors('lastName')}"
                          th:errors="*{lastName}"></div>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email *</label>
+                    <label for="email" th:text="#{user_email}">Email *</label>
                     <input class="form-control" type="text" th:field="*{email}" id="email" placeholder="Enter email">
                     <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password *</label>
+                    <label for="password" th:text="#{user_password}">Password *</label>
                     <input class="form-control" th:field="*{password}" type="password" id="password" name="password"
                            placeholder="Enter password">
                     <div class="alert alert-warning" th:if="${#fields.hasErrors('password')}"
                          th:errors="*{password}"></div>
                 </div>
                 <div class="form-group">
-                    <label for="confirmPassword">Confirm password *</label>
+                    <label for="confirmPassword" th:text="#{user_confirm_password}">Confirm password *</label>
                     <input class="form-control" th:field="*{confirmPassword}" type="password" id="confirmPassword"
                            name="confirmPassword" placeholder="Confirm password">
                     <div class="alert alert-warning" th:if="${#fields.hasErrors('confirmPassword')}"

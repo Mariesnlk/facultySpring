@@ -41,26 +41,26 @@
                 <div class="row">
                     <div class="col-lg-2">
                         <div class="logo">
-                            <a href="#" th:href="@{/}"><h2>Faculty site</h2></a>
+                            <a th:href="@{/student}"><h2>Faculty site</h2></a>
                         </div>
                     </div>
                     <div class="col-lg-10">
                         <div class="nav-menu">
                             <nav class="mainmenu">
                                 <ul>
-                                    <li><a th:href="@{/my_courses}">My Courses</a></li>
-                                    <li><a th:href="@{/courses}">Courses</a></li>
-                                    <li><a th:href="@{/teachers}">Teachers</a></li>
-                                    <li><a th:href="@{/about}">About us</a></li>
-                                    <li><a th:href="@{/contacts}">Contact info</a></li>
+                                    <li><a th:href="@{/my_courses}" th:text="#{navbar.my_courses}">My Courses</a></li>
+                                    <li><a th:href="@{/courses}" th:text="#{navbar.courses}">Courses</a></li>
+                                    <li><a th:href="@{/teachers}" th:text="#{navbar.teachers}">Teachers</a></li>
+                                    <li><a th:href="@{/about}" th:text="#{navbar.about}">About us</a></li>
+                                    <li><a th:href="@{/contacts}" th:text="#{navbar.contacts}">Contact info</a></li>
                                     <li sec:authorize="isAuthenticated()">
-                                        <a th:href="@{/login}">
+                                        <a th:href="@{/login}" th:text="#{sign_in}">
                                             <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Sign
                                             in
                                         </a>
                                     </li>
                                     <li sec:authorize="isAuthenticated()">
-                                        <a th:href="@{/logout}">
+                                        <a th:href="@{/logout}" th:text="#{logout}">
                                             <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
                                         </a>
                                     </li>
